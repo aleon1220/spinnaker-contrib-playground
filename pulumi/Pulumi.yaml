@@ -1,0 +1,7 @@
+name: kubernetes-azure-csharp
+description: A C# program to deploy a Kubernetes cluster on Azure
+runtime: dotnet
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: tree/master/kubernetes-azure-csharp

@@ -1,0 +1,9 @@
+config:
+  azure-native:location: westus2
+  kubernetes-azure-csharp:kubernetesVersion: 1.26.3
+  kubernetes-azure-csharp:mgmtGroupId: ""
+  kubernetes-azure-csharp:nodeVmSize: Standard_DS2_v2
+  kubernetes-azure-csharp:numWorkerNodes: "3"
+  kubernetes-azure-csharp:prefixForDns: pulumi
+  kubernetes-azure-csharp:sshPubKey: ""
+  pulumi:template: https://github.com/pulumi/templates/tree/master/kubernetes-azure-csharp
