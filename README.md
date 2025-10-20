@@ -1,6 +1,6 @@
 ## 🌀 spinnaker-contrib-playground
 
-**A collaborative lab for experimenting with [Spinnaker](https://spinnaker.io/) and Infrastructure as Code (IaC).**
+**A collaborative lab for experimenting with [Spinnaker](https://spinnaker.io/) and Infrastructure as Code (IaC)**
 This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Terraform, Kubernetes, and Azure.
 
 2025 experimenting with pulumi and Azure AKS
@@ -11,24 +11,15 @@ This repository is a community-driven playground for exploring Continuous Delive
 
 This project serves as a **sandbox** for:
 
-* Experimenting with **Spinnaker pipelines**, triggers, and deployment strategies.
-* Building **Infrastructure as Code** workflows for consistent, automated environments.
-* Sharing **community contributions**, scripts, and reusable modules.
-* Testing integration with major cloud providers (Azure, AWS, GCP, etc.).
+* Experimenting with **Spinnaker pipelines**, triggers, and deployment strategies
+* Building **Infrastructure as Code** workflows for consistent, automated environments
+* Sharing **community contributions**, scripts, and reusable modules
+* Testing integration with major cloud providers (Azure, AWS, GCP)
 
 ---
 
 ### 🧩 Structure
-
-```
-spinnaker-contrib-playground/
-│
-├── pipelines/           # Example Spinnaker pipeline definitions (JSON/YAML)
-├── infra/               # IaC templates (Terraform, Pulumi, etc.)
-├── scripts/             # Helper scripts for setup, deployment, testing
-├── docs/                # Documentation, guides, and architecture diagrams
-└── examples/            # Demo applications and reference deployments
-```
+should be as simple and intuitive as possible. I am working on a flat structure to get straight away what is needed.
 
 ---
 
@@ -38,7 +29,6 @@ spinnaker-contrib-playground/
 
    ```bash
    git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
-   cd spinnaker-contrib-playground
    ```
 
 2. **Set up Spinnaker locally or in a test environment**
@@ -90,6 +80,7 @@ Please open a **pull request** or start a **discussion** in the repo.
 ### 🧭 Roadmap
 
 * [ ] Create example Spinnaker pipeline for multi-cloud deployment
+* [ ] Add pulumi flow to deploy AKS
 * [ ] Add Terraform modules for Azure/AWS environments
 * [ ] Integrate with GitHub Actions for CI
 * [ ] Explore Spinnaker Operator for Kubernetes
