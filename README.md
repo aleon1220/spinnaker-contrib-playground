@@ -3,6 +3,8 @@
 **A collaborative lab for experimenting with [Spinnaker](https://spinnaker.io/) and Infrastructure as Code (IaC)**
 This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Terraform, Kubernetes, and Azure.
 
+the purpose is to repeatably install Spinnaker so many times that it gets more and more excellence and simplicity.
+
 2025 experimenting with pulumi and Azure AKS
 
 ---
@@ -20,34 +22,45 @@ This project serves as a **sandbox** for:
 
 ### 🧩 Structure
 should be as simple and intuitive as possible. I am working on a flat structure to get straight away what is needed.
+requirements inside each directory.
 
 ---
 
 ### ⚙️ Getting Started
 
-1. **Clone the repo**
+1. **use pulumi | install if not present**
+```bash
+curl -fsSL https://get.pulumi.com | sh
+```
 
-   ```bash
-   git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
-   ```
+2. clone this repo
+```bash
+git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
+```
 
-2. **Set up Spinnaker locally or in a test environment**
+3. test pulumi
+```bash
+pulumi version
+```
 
-   * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
-   * Configure your cloud provider account (e.g., Azure, AWS)
-   * Apply sample pipeline manifests from `/pipelines`
+**Run IaC examples**
 
-3. **Run IaC examples**
-
-   ```bash
-   cd infra/terraform
-   terraform init
-   terraform apply
-   ```
+```bash
+cd pulumi
+pulumi up
+```
 
 4. **Experiment, tweak, contribute 🚀**
 
 ---
+
+## Spinnaker installation
+> it seems spinnaker is hard to install. 
+**Set up Spinnaker locally or in a test environment**
+
+   * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
+   * Configure your cloud provider account (e.g., Azure, AWS)
+   * Apply sample pipeline manifests from `/pipelines`
 
 ### 🤝 Contributing
 
@@ -78,7 +91,7 @@ Please open a **pull request** or start a **discussion** in the repo.
 ---
 
 ### 🧭 Roadmap
-
+* [ ] Get a stable pulumi IaC AKS cluster and access it from the CLI
 * [ ] Create example Spinnaker pipeline for multi-cloud deployment
 * [ ] Add pulumi flow to deploy AKS
 * [ ] Add Terraform modules for Azure/AWS environments
