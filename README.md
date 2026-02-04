@@ -1,4 +1,4 @@
-## 🌀 spinnaker-contrib-playground
+# 🌀 spinnaker-contrib-playground
 
 **A collaborative lab for experimenting with [Spinnaker](https://spinnaker.io/) and Infrastructure as Code (IaC)**
 This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Terraform, Kubernetes, and Azure.
@@ -8,7 +8,7 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 2025 experimenting with pulumi and Azure AKS
 
 ---
-
+## Spinnaker running in AKS via Pulumi IaC
 ### 🚀 Purpose
 
 This project serves as a **sandbox** for:
@@ -52,13 +52,25 @@ pulumi up
 
 4. **Experiment, tweak, contribute 🚀**
 
+#### Run the pulumi stack as a binary
+
 ---
 
 ## Spinnaker installation
 > it seems spinnaker is hard to install. 
 **Set up Spinnaker locally or in a test environment**
-
    * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
+
+2026-02-04
+```bash
+Halyard version will be 1.70.0 
+Halyard will be downloaded from the spinnaker-community repository 
+Halconfig will be stored at /home/spinnaker/.hal/config
+Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
+# lots of install output
+Halyard version: 2025.4.1
+```
+   
    * Configure your cloud provider account (e.g., Azure, AWS)
    * Apply sample pipeline manifests from `/pipelines`
 
