@@ -1,9 +1,13 @@
-# Pulumi
-# Azure
+# Pulumi Azure AKS
+## Execution forms
+to run the stacks you need a bash, clone of this repo, pulumi installed and dotnet > v8.0
+
+1. Execute from Azure Shell
+2. Execute from code Spaces
+3. Run locally
 leveraging pluralsight cloud sandboxes with the benefit of using free cloud resources for quick and clean experimentation.
 
-when using pluralsight cloud sandboxes some restrictions are in place
-https://help.pluralsight.com/hc/en-us/articles/24392988447636-Azure-cloud-sandbox
+when using pluralsight Azure cloud sandboxes some restrictions [are in place](https://help.pluralsight.com/hc/en-us/articles/24392988447636-Azure-cloud-sandbox)
 
 ## DotNet Azure classes
 ```mermaid
