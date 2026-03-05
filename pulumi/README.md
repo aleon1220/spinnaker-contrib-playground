@@ -1,6 +1,6 @@
 # Pulumi Azure AKS
 ## Execution forms
-to run the stacks you need a bash, clone of this repo, pulumi installed and dotnet > v8.0
+to run the stacks you need a bash interface, clone of this repo, pulumi installed, pulumi Token and dotnet > v8.0
 
 1. Execute from Azure Shell
 2. Execute from code Spaces
