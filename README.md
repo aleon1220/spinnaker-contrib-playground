@@ -28,17 +28,17 @@ requirements inside each directory.
 
 ### ⚙️ Getting Started
 
-1. **use pulumi | install if not present**
-```bash
-curl -fsSL https://get.pulumi.com | sh
-```
-
 2. clone this repo
 ```bash
 git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
 ```
 
-3. test pulumi
+1. **install pulumi if not present**
+```bash
+curl -fsSL https://get.pulumi.com | sh
+```
+
+3. pulumi check
 ```bash
 pulumi version
 ```
@@ -116,3 +116,4 @@ Please open a **pull request** or start a **discussion** in the repo.
 ### 💡 Vision
 
 To create a **collaborative lab** where engineers, DevOps practitioners, and cloud enthusiasts can explore how **Spinnaker + IaC** can enable scalable, repeatable, and reliable delivery pipelines.
+
