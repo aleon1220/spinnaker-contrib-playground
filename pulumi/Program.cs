@@ -16,9 +16,10 @@ return await Pulumi.Deployment.RunAsync(() =>
     // The next two configuration values are required (no default can be provided)
     var mgmtGroupId = projCfg.Require("mgmtGroupId");
     var sshPubKey = projCfg.Require("sshPubKey");
-
+    // anonymous object to satisfy resource dependencies without creating an actual resource
+    var resourceGroup = new { Name = projCfg.Require("resourceGroupNameEphemeral") };
     // Create a new Azure Resource Group
-    var resourceGroup = new AzureNative.Resources.ResourceGroup("resourceGroup");
+    // var resourceGroup = new AzureNative.Resources.ResourceGroup("resourceGroup");
 
     // Create a new Azure Virtual Network
     var virtualNetwork = new AzureNative.Network.VirtualNetwork("virtualNetwork", new()
