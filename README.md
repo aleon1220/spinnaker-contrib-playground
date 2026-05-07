@@ -1,12 +1,23 @@
 # 🌀 spinnaker-contrib-playground
 
-**A collaborative lab for experimenting with [Spinnaker](https://spinnaker.io/) and Infrastructure as Code (IaC)**
+**A collaborative lab for experimenting [Spinnaker](https://spinnaker.io/) installs with Infrastructure as Code (IaC)**
 
 This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Pulumi, Terraform, Kubernetes, and Azure.
 
 the purpose is to repeatably install Spinnaker so many times that it gets more and more excellence and simplicity.
 
 2025 experimenting with pulumi and Azure AKS
+
+---
+
+### 🧭 Roadmap
+* [ ] Get a stable pulumi IaC AKS cluster and access it from the CLI
+* [ ] Create example Spinnaker pipeline for multi-cloud deployment
+* [ ] Add pulumi flow to deploy AKS
+* [ ] Add Terraform modules for Azure/AWS environments
+* [ ] Integrate with GitHub Actions for CI
+* [ ] Explore Spinnaker Operator for Kubernetes
+* [ ] Add contributors and community guidelines
 
 ---
 
@@ -26,6 +37,7 @@ This project serves as a **sandbox** for:
 ### 🧩 Structure
 
 should be as simple and intuitive as possible. I am working on a flat structure to get straight away what is needed.
+
 requirements inside each directory.
 
 ---
@@ -52,10 +64,7 @@ pulumi version
 
 **Run IaC examples**
 
-```bash
-cd pulumi
-pulumi up
-```
+- go to the directory with the pulumi stack and execute
 
 ### Experiment, tweak, contribute 🚀
 
@@ -107,19 +116,6 @@ Please open a **pull request** or start a **discussion** in the repo.
 * [Terraform by HashiCorp](https://developer.hashicorp.com/terraform)
 * [Kubernetes Deployment Strategies](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 * [GitOps and Continuous Delivery Patterns](https://www.weave.works/technologies/gitops/)
-
----
-
-### 🧭 Roadmap
-* [ ] Get a stable pulumi IaC AKS cluster and access it from the CLI
-* [ ] Create example Spinnaker pipeline for multi-cloud deployment
-* [ ] Add pulumi flow to deploy AKS
-* [ ] Add Terraform modules for Azure/AWS environments
-* [ ] Integrate with GitHub Actions for CI
-* [ ] Explore Spinnaker Operator for Kubernetes
-* [ ] Add contributors and community guidelines
-
----
 
 ### 💡 Vision
 
