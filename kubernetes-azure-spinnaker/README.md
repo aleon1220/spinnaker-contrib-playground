@@ -11,9 +11,29 @@
  - An Azure account with credentials configured (for example, via `az login` or setting environment variables `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, and `ARM_SUBSCRIPTION_ID`).
  - Java 11 or higher installed.
  - Maven installed.
- - Pulumi CLI installed and logged in.
+ - Pulumi CLI installed and logged in
+ - refer to [Pulumi Azure Native Java Getting Started](https://www.pulumi.com/docs/intro/languages/java/)
+ - refer to [Pulumi Azure Native Getting Started](https://www.pulumi.com/docs/iac/get-started/azure/)
 
- ## Getting Started
+## Getting Started
+ 
+- connect to the target azure account
+- run the pulumi stack
+
+## Outputs
+
+ - `storageAccountName`: The name of the Storage Account.
+
+---
+
+ ## Next Steps
+
+ - Extend `App.java` to add more Azure resources (for example, Cosmos DB, Functions, or Networking).
+ - Use multiple Pulumi stacks for different environments (development, staging, production).
+ - Integrate Pulumi into your CI/CD pipeline.
+ - Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/).
+
+## Getting Started
 
  To create a new project from this template, run:
 
@@ -59,16 +79,6 @@
  pulumi config set azure-native:location <your-region>
  ```
 
- ## Outputs
-
- - `storageAccountName`: The name of the Storage Account.
-
- ## Next Steps
-
- - Extend `App.java` to add more Azure resources (for example, Cosmos DB, Functions, or Networking).
- - Use multiple Pulumi stacks for different environments (development, staging, production).
- - Integrate Pulumi into your CI/CD pipeline.
- - Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/).
 
  ## Getting Help
 
