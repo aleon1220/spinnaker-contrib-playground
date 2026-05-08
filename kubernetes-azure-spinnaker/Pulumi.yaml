@@ -1,0 +1,7 @@
+name: kubernetes-azure-spinnaker
+description: Spinnaker Stack on Azure Kubernetes
+runtime: java
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: azure-java
