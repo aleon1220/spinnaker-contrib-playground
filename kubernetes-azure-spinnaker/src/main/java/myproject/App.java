@@ -1,27 +1,33 @@
 package myproject;
 
 import com.pulumi.Pulumi;
+import com.pulumi.azurenative.containerservice.ManagedCluster;
+import com.pulumi.azurenative.containerservice.ManagedClusterArgs;
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterAgentPoolProfileArgs;
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIdentityArgs;
+import com.pulumi.azurenative.containerservice.enums.ResourceIdentityType;
 import com.pulumi.azurenative.resources.ResourceGroup;
-import com.pulumi.azurenative.storage.StorageAccount;
-import com.pulumi.azurenative.storage.StorageAccountArgs;
-import com.pulumi.azurenative.storage.enums.Kind;
-import com.pulumi.azurenative.storage.enums.SkuName;
-import com.pulumi.azurenative.storage.inputs.SkuArgs;
-import com.pulumi.core.Either;
 
 public class App {
     public static void main(String[] args) {
         Pulumi.run(ctx -> {
             var resourceGroup = new ResourceGroup("resourceGroup");
-            var storageAccount = new StorageAccount("sa", StorageAccountArgs.builder()
+
+            var cluster = new ManagedCluster("aksCluster", ManagedClusterArgs.builder()
                     .resourceGroupName(resourceGroup.name())
-                    .sku(SkuArgs.builder()
-                            .name(SkuName.Standard_LRS)
+                    .dnsPrefix("aks-dns-prefix")
+                    .agentPoolProfiles(ManagedClusterAgentPoolProfileArgs.builder()
+                            .name("agentpool")
+                            .count(3)
+                            .vmSize("Standard_DS2_v2")
+                            .mode("System")
                             .build())
-                    .kind(Kind.StorageV2)
+                    .identity(ManagedClusterIdentityArgs.builder()
+                            .type(ResourceIdentityType.SystemAssigned)
+                            .build())
                     .build());
 
-            ctx.export("storageAccountName", storageAccount.name());
+            ctx.export("clusterName", cluster.name());
         });
     }
 }
