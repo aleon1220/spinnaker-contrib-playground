@@ -5,3 +5,9 @@ config:
   pulumi:tags:
     value:
       pulumi:template: azure-java
+  azure-native:location:
+    description: The Azure location to deploy resources to
+    default: eastus
+  resourceGroupName:
+    description: The name of the resource group
+    default: anz-devops-sre-platform-engineering-research-dev
