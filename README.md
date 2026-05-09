@@ -2,7 +2,7 @@
 
 **A collaborative lab for experimenting [Spinnaker](https://spinnaker.io/) installs with Infrastructure as Code (IaC)**
 
-This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Pulumi, Terraform, Kubernetes, and Azure.
+This repository is a community-driven playground for exploring Continuous Delivery automation, multi-cloud deployments, and integration patterns with tools like Pulumi, Kubernetes, and Azure.
 
 the purpose is to repeatably install Spinnaker so many times that it gets more and more excellence and simplicity.
 
@@ -11,11 +11,11 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 ---
 
 ### 🧭 Roadmap
-* [ ] Get a stable pulumi IaC AKS cluster and access it from the CLI
+* [x] Get a stable pulumi IaC AKS cluster and access it from the CLI ✅ 📅 2026-05-09
 * [ ] Create example Spinnaker pipeline for multi-cloud deployment
 * [ ] Add pulumi flow to deploy AKS
-* [ ] Add Terraform modules for Azure/AWS environments
-* [ ] Integrate with GitHub Actions for CI
+* [ ] Add Pulumi modules for Azure environments with the azure-native provider
+* [ ] Integrate with GitHub Actions for CI 
 * [ ] Explore Spinnaker Operator for Kubernetes
 * [ ] Add contributors and community guidelines
 
@@ -68,15 +68,16 @@ pulumi version
 
 ### Experiment, tweak, contribute 🚀
 
-
 ---
 
 ## Spinnaker installation
+
 > it seems spinnaker is hard to install. 
+
 **Set up Spinnaker locally or in a test environment**
    * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
 
-2026-02-04
+### effort 2026-02-04
 
 ```bash
 Halyard version will be 1.70.0 
@@ -87,9 +88,9 @@ Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
 # lots of install output
 Halyard version: 2025.4.1
 ```
-   
-   * Configure your cloud provider account (e.g., Azure, AWS)
-   * Apply sample pipeline manifests from `/pipelines`
+
+* Configure your cloud provider account (e.g., Azure, AWS)
+* Apply sample pipeline manifests from `/pipelines`
 
 ### 🤝 Contributing
 
@@ -124,46 +125,46 @@ To create a **collaborative lab** where engineers, DevOps practitioners, and clo
 
 ## Getting Started with a pulumi project
 
- To create a new project from this template, run:
+To create a new project from this template, run:
 
  ```bash
  pulumi new azure-java
  ```
 
- Follow the interactive prompts:
+Follow the interactive prompts:
 
- - Project name
- - Project description
- - `azure-native:location`: The Azure location to use (default: WestUS2)
+- Project name
+- Project description
+- `azure-native:location`: The Azure location to use (default: WestUS2)
 
- Then, change into your project directory and preview or deploy your stack:
+Then, change into your project directory and preview or deploy your stack:
 
- ```bash
- cd <project-directory>
- pulumi up
- ```
+```bash
+cd <project-directory>
+pulumi up
+```
 
- ## Project Layout
+## Project Layout
 
- ```plaintext
- .
- ├── Pulumi.yaml         # Project and template metadata
- ├── pom.xml             # Maven project file with dependencies
- └── src
-     └── main
-         └── java
-             └── myproject
-                 └── App.java  # Main program defining Azure resources
- ```
+```plaintext
+.
+├── Pulumi.yaml         # Project and template metadata
+├── pom.xml             # Maven project file with dependencies
+└── src
+    └── main
+        └── java
+            └── myproject
+                └── App.java  # Main program defining Azure resources
+```
 
- ## Configuration
+## Configuration
 
- | Key                       | Description                     | Default  |
- |---------------------------|---------------------------------|----------|
- | `azure-native:location`   | Azure region for resources      | WestUS2  |
+| Key                       | Description                     | Default  |
+|---------------------------|---------------------------------|----------|
+| `azure-native:location`   | Azure region for resources      | WestUS2  |
 
- To override the default location, run:
+To override the default location, run:
 
- ```bash
- pulumi config set azure-native:location <your-region>
- ```
+```bash
+pulumi config set azure-native:location <your-region>
+```
