@@ -4,10 +4,10 @@ runtime: java
 config:
   pulumi:tags:
     value:
-      pulumi:template: azure-java
+      pulumi:template: java-gradle
   azure-native:location:
     description: The Azure location to deploy resources to
-    default: eastus
+    value: eastus
   resourceGroupName:
     description: The name of the resource group
-    default: anz-devops-sre-platform-engineering-research-dev
+    value: anz-devops-sre-platform-engineering-research-dev
