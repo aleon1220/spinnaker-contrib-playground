@@ -8,6 +8,60 @@
 
  ## Prerequisites
 
+- launch [PluralsightHands-On Playground](https://app.pluralsight.com/hands-on/playground/cloud-sandboxes) 
+- todo: instructions to reference to az cli docs on how to Authenticate using a Service Principal having the env variables available
+
+- set authentication using a Service Principal
+
+```bash
+ pulumi version
+ PLURALSIGHT_RG_NAME="1-6be2cc6b-playground-sandbox" && pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+ az group list
+ az account show --query id -o tsv
+ pulumi config set azure-native:useDefaultAzureCredential false
+ 
+ az account set --subscription $ARM_SUBSCRIPTION_ID
+ 
+ export ARM_SUBSCRIPTION_ID="80ea84e8-afce-4851-928a-9e2219724c69"
+ echo $ARM_SUBSCRIPTION_ID
+ az account set --subscription $ARM_SUBSCRIPTION_ID
+
+ pulumi config set azure-native:subscriptionId $ARM_SUBSCRIPTION_ID
+ az account show
+ az account list
+ az account show | jq
+ az group list --query "[?location=='westus']"
+ 
+ gradle clean
+ gradle clean build 2>&1
+ tree -L 2
+ git status
+ AZURE_TENANT_ID="$ARM_TENANT_ID" 
+ az group list --query "[?location=='westus']"
+ az account show | jq
+ az login
+ az group list --query "[?location=='westus']"
+ az account show --query id -o tsv
+ az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
+ az group list --query "[?location=='westus']"
+ pulumi up
+ pulumi config set azure-native:useDefaultAzureCredential false
+ echo $ARM_SUBSCRIPTION_ID
+ export ARM_USE_DEFAULT_AZURE_CREDENTIAL=false
+ az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
+ echo $ARM_CLIENT_ID
+ echo $ARM_CLIENT_SECRET
+ echo $ARM_TENANT_ID
+ echo $ARM_SUBSCRIPTION_ID
+ echo $ARM_LOCATION_NAME
+ pulumi config list
+ pulumi config -j
+ pulumi config -j | jq
+ pulumi up
+
+```
+az account show --query id -o tsv
+
  - An Azure account with credentials configured (for example, via `az login` or setting environment variables `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, and `ARM_SUBSCRIPTION_ID`).
 
 Azure publishes an open configuration file for every domain that exposes the Tenant ID publicly.
@@ -40,12 +94,11 @@ pushd kubernetes-azure-spinnaker
 
 - set variables according to plural sight restrictions
 
-
-
+```bash
 PLURALSIGHT_RG_NAME="" && pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+```
 
 - run the pulumi stack
-
 
 ## Outputs
 
@@ -60,57 +113,20 @@ PLURALSIGHT_RG_NAME="" && pulumi config set resourceGroupName $PLURALSIGHT_RG_NA
  - Integrate Pulumi into your CI/CD pipeline.
  - Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/).
 
-## Getting Started
+## Getting Help
 
- To create a new project from this template, run:
+ you have questions or encounter any issues:
 
- ```bash
- pulumi new azure-java
- ```
+- Check out the [Pulumi Documentation](https://www.pulumi.com/docs/).
+- Join the [Pulumi Community Slack](https://slack.pulumi.com/) for support.
+- File an issue in this repository.
 
- Follow the interactive prompts:
+## Connect to the AKS cluster
 
- - Project name
- - Project description
- - `azure-native:location`: The Azure location to use (default: WestUS2)
+```bash
+az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME --admin
+```
 
- Then, change into your project directory and preview or deploy your stack:
-
- ```bash
- cd <project-directory>
- pulumi up
- ```
-
- ## Project Layout
-
- ```plaintext
- .
- ├── Pulumi.yaml         # Project and template metadata
- ├── pom.xml             # Maven project file with dependencies
- └── src
-     └── main
-         └── java
-             └── myproject
-                 └── App.java  # Main program defining Azure resources
- ```
-
- ## Configuration
-
- | Key                       | Description                     | Default  |
- |---------------------------|---------------------------------|----------|
- | `azure-native:location`   | Azure region for resources      | WestUS2  |
-
- To override the default location, run:
-
- ```bash
- pulumi config set azure-native:location <your-region>
- ```
-
-
- ## Getting Help
-
- If you have questions or encounter any issues:
-
- - Check out the [Pulumi Documentation](https://www.pulumi.com/docs/).
- - Join the [Pulumi Community Slack](https://slack.pulumi.com/) for support.
- - File an issue in this repository.
+```bash
+kubectl get nodes
+```
