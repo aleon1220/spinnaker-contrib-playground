@@ -8,7 +8,24 @@
 
  ## Prerequisites
 
- - An Azure account with credentials configured (for example, via `az login` or setting environment variables `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, and `ARM_SUBSCRIPTION_ID`).
+ - An Azure account with credentials configured (for example, via `az login` or setting environment variables `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, and `ARM_SUBSCRIPTION_ID`).
+
+Azure publishes an open configuration file for every domain that exposes the Tenant ID publicly.
+
+- set domain e.g. the pluralsight cloud hands on boxes domain
+
+```bash
+DOMAIN_TENANT="realhandsonlabs.com"
+```
+
+- extract tenant id from domain name
+
+```bash
+export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
+
+echo $ARM_TENANT_ID
+```
+
  - Java 11 or higher installed.
  - Maven installed.
  - Pulumi CLI installed and logged in
@@ -18,7 +35,17 @@
 ## Getting Started
  
 - connect to the target azure account
+
+pushd kubernetes-azure-spinnaker
+
+- set variables according to plural sight restrictions
+
+
+
+PLURALSIGHT_RG_NAME="" && pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+
 - run the pulumi stack
+
 
 ## Outputs
 
