@@ -121,3 +121,49 @@ Please open a **pull request** or start a **discussion** in the repo.
 
 To create a **collaborative lab** where engineers, DevOps practitioners, and cloud enthusiasts can explore how **Spinnaker + IaC** can enable scalable, repeatable, and reliable delivery pipelines.
 
+
+## Getting Started with a pulumi project
+
+ To create a new project from this template, run:
+
+ ```bash
+ pulumi new azure-java
+ ```
+
+ Follow the interactive prompts:
+
+ - Project name
+ - Project description
+ - `azure-native:location`: The Azure location to use (default: WestUS2)
+
+ Then, change into your project directory and preview or deploy your stack:
+
+ ```bash
+ cd <project-directory>
+ pulumi up
+ ```
+
+ ## Project Layout
+
+ ```plaintext
+ .
+ ├── Pulumi.yaml         # Project and template metadata
+ ├── pom.xml             # Maven project file with dependencies
+ └── src
+     └── main
+         └── java
+             └── myproject
+                 └── App.java  # Main program defining Azure resources
+ ```
+
+ ## Configuration
+
+ | Key                       | Description                     | Default  |
+ |---------------------------|---------------------------------|----------|
+ | `azure-native:location`   | Azure region for resources      | WestUS2  |
+
+ To override the default location, run:
+
+ ```bash
+ pulumi config set azure-native:location <your-region>
+ ```
