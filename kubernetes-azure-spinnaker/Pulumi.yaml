@@ -1,10 +1,13 @@
 name: kubernetes-azure-spinnaker
 description: Spinnaker Stack on Azure Kubernetes
-runtime: java
+runtime:
+  name: java
+  options:
+    binary: gradle run --console=plain
 config:
   pulumi:tags:
     value:
-      pulumi:template: java-gradle
+      pulumi:template: azure-java
   azure-native:location:
     description: The Azure location to deploy resources to
     value: eastus
