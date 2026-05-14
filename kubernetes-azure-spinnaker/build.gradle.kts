@@ -1,6 +1,7 @@
 plugins {
     application
     alias(libs.plugins.axion)
+    alias(libs.plugins.shadow)
 }
 
 java {
@@ -23,4 +24,18 @@ dependencies {
 
 application {
     mainClass.set("myproject.App")
+}
+
+// Configure Axion to look for tags starting with 'v'
+scmVersion {
+    tag {
+        prefix.set("v")
+    }
+}
+
+// Crucial step: Set the Gradle project version to the version Axion discovered
+version = scmVersion.version
+
+tasks.shadowJar {
+    isZip64 = true
 }
