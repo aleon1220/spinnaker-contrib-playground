@@ -38,4 +38,6 @@ version = scmVersion.version
 
 tasks.shadowJar {
     isZip64 = true
+
+    minimize() // todo: test if outcome is a smaller jar
 }
