@@ -152,22 +152,12 @@ Follow the interactive prompts:
 
 ## Project Layout
 
-```plaintext
-.
-├── Pulumi.yaml         # Project and template metadata
-├── pom.xml             # Maven project file with dependencies
-└── src
-    └── main
-        └── java
-            └── myproject
-                └── App.java  # Main program defining Azure resources
-```
+* each directory is a gradle sub-project. Preference is given to Java Pulumi.
 
 ## Configuration
 
-| Key                       | Description                     | Default  |
-|---------------------------|---------------------------------|----------|
-| `azure-native:location`   | Azure region for resources      | WestUS2  |
+* suggest to customise the pulumi flows by setting values and environment variables using pulumi cli
+* Secret management leverages 1Password to inject secrets and tokens
 
 To override the default location, run:
 
