@@ -12,8 +12,10 @@ leveraging the Azure Native provider. This template provisions:
 * set authentication using a Service Principal
 
 ```bash
+curl -fsSL https://get.pulumi.com | sh
 pulumi version
-pulumi stack select
+PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
+pulumi stack select $PULUMI_STACK
 
 PLURALSIGHT_RG_NAME="todo_enter_name_given_by_pluralsight_cloud_sandbox" 
 pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
@@ -56,15 +58,17 @@ DOMAIN_TENANT="realhandsonlabs.com"
 
 * gradle installed
 
-```bash
+  ```bash
 
-```
+  ```
 
 * Pulumi CLI installed and logged in
 
-```bash
+Pulumi [tokens](https://app.pulumi.com/account/tokens)
 
-```
+  ```bash
+
+  ```
 
 
 * refer to [Pulumi Azure Native Java Getting Started](https://www.pulumi.com/docs/intro/languages/java/)
@@ -182,6 +186,42 @@ az aks get-credentials --resource-group "$PLURALSIGHT_RG_NAME" --name "$CLUSTER_
 ### smoke test a Kubernetes deployment
 
 from docs in K8s <https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/>
+
+## Notes running cloud Shell Azure
+
+```bash
+cloud [ ~ ]$ vim Pulumi.yaml
+
+cloud [ ~ ]$ pulumi stack
+Please choose a stack, or create a new one: <create a new stack>
+Please enter your desired stack name.
+To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`): aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker 
+Please enter your desired stack name.
+Current stack is cloudshell-aks-spinnaker:
+    Owner: aleon1220
+    Tags:
+        pulumi:description  A precompiled Java Pulumi program
+        pulumi:project      cloudshell-aks-spinnaker
+        pulumi:runtime      java
+Current stack resources (0):
+    No resources currently in this stack
+
+More information at: https://app.pulumi.com/aleon1220/cloudshell-aks-spinnaker/cloudshell-aks-spinnaker
+
+Use `pulumi stack select` to change stack; `pulumi stack ls` lists known ones
+
+echo "Pulumi.yaml needs to be present"
+
+name: kubernetes-azure-spinnaker 
+description: A precompiled Java Pulumi program # Project name
+runtime:
+  name: java
+  options:
+    binary: kubernetes-azure-spinnaker-0.1.0-2026-05-may-improvements-SNAPSHOT-all.jar
+
+
+pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
+```
 
 ## References
 
