@@ -2,9 +2,9 @@
 # https://docs.gradle.org/current/userguide/version_catalogs.html#sec::toml-dependencies-format
 [versions]
 axion = "1.21.1"
-azureNative = "3.17.0"
+azureNative = "3.18.0"
 catalogUpdateVersion_version = "1.1.0"
-pulumiJava = "1.26.0"
+pulumiJava = "1.28.0"
 shadow = "9.4.1"
 spotless = "8.5.1"
 versionUpdate_version = "0.54.0"
