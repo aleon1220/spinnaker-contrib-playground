@@ -4,6 +4,11 @@
 [versions]
 axion = "1.21.1"
 shadow = "9.4.1"
+catalogUpdateVersion_version = "1.1.0"
+spotless = "8.5.1"
+versionUpdate_version = "0.54.0"
+pulumiJava = "1.26.0"
+azureNative = "3.17.0"
 
 [plugins]
 
@@ -13,4 +18,17 @@ shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 # https://axion-release-plugin.readthedocs.io/en/latest/
 axion = { id = "pl.allegro.tech.build.axion-release", version.ref = "axion" }
 
+# https://github.com/littlerobots/version-catalog-update-plugin
+catalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "catalogUpdateVersion_version" }
+
+# https://plugins.gradle.org/plugin/com.diffplug.spotless
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+
+versionUpdate = { id = "com.github.ben-manes.versions", version.ref = "versionUpdate_version" }
+
 [libraries]
+# Source: https://mvnrepository.com/artifact/com.pulumi/pulumi
+pulumiJava = { module =  "com.pulumi:pulumi", version.ref = "pulumiJava" }
+
+# Source: https://mvnrepository.com/artifact/com.pulumi/azure-native
+azureNative = { module = "com.pulumi:azure-native", version.ref = "azureNative" }
