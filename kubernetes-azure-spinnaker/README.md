@@ -2,22 +2,24 @@
 
 leveraging the Azure Native provider. This template provisions:
 
-* An Azure Resource Group or the rg provided by Pluralsight Sandboxes
+* An Azure Resource Group 
+* the rg name provided by Pluralsight Sandboxes
 * AKS cluster
 
 ## Prerequisites
 
-* launch [PluralsightHands-On Playground](https://app.pluralsight.com/hands-on/playground/cloud-sandboxes) 
+* launch [PluralsightHands-On Playground](https://app.pluralsight.com/hands-on/playground/cloud-sandboxes)
 
 * set authentication using a Service Principal
 
 ```bash
 curl -fsSL https://get.pulumi.com | sh
 pulumi version
+
 PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
 pulumi stack select $PULUMI_STACK
 
-PLURALSIGHT_RG_NAME="todo_enter_name_given_by_pluralsight_cloud_sandbox" 
+PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox" 
 pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
 
 pulumi config set azure-native:useDefaultAzureCredential false
@@ -75,7 +77,7 @@ Pulumi [tokens](https://app.pulumi.com/account/tokens)
 * refer to [Pulumi Azure Native Getting Started](https://www.pulumi.com/docs/iac/get-started/azure/)
 
 ## Getting Started
- 
+
 * connect to the target azure account
 
   ```bash
@@ -213,7 +215,7 @@ Use `pulumi stack select` to change stack; `pulumi stack ls` lists known ones
 echo "Pulumi.yaml needs to be present"
 
 name: kubernetes-azure-spinnaker 
-description: A precompiled Java Pulumi program # Project name
+description: A precompiled Java Pulumi program 
 runtime:
   name: java
   options:
@@ -222,6 +224,14 @@ runtime:
 
 pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
 ```
+
+### Build the Native Distribution
+
+Pulumi.yaml
+
+kubernetes-azure-spinnaker/Pulumi.yaml
+
+wget --verbose https://github.com/aleon1220/spinnaker-contrib-playground/blob/14e7f00c7f19de0ef5804eb4c29b74391a22e7e9/kubernetes-azure-spinnaker/Pulumi.yaml
 
 ## References
 

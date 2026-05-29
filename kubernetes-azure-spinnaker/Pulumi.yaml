@@ -1,9 +1,11 @@
-name: kubernetes-azure-spinnaker
+name: kubernetes-azure-spinnaker # Project name
 description: Spinnaker Stack on Azure Kubernetes
 runtime:
   name: java
   options:
     binary: gradle run --console=plain
+    # Point directly to the generated Bash script, NOT a .jar file
+    # binary: kubernetes-azure-spinnaker/bin/kubernetes-azure-spinnaker
 config:
   pulumi:tags:
     value:
