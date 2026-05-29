@@ -2,7 +2,7 @@
 
 leveraging the Azure Native provider. This template provisions:
 
-* An Azure Resource Group 
+* An Azure Resource Group
 * the rg name provided by Pluralsight Sandboxes
 * AKS cluster
 
@@ -14,6 +14,7 @@ leveraging the Azure Native provider. This template provisions:
 
 ```bash
 curl -fsSL https://get.pulumi.com | sh
+bash
 pulumi version
 
 PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
@@ -71,7 +72,6 @@ Pulumi [tokens](https://app.pulumi.com/account/tokens)
   ```bash
 
   ```
-
 
 * refer to [Pulumi Azure Native Java Getting Started](https://www.pulumi.com/docs/intro/languages/java/)
 * refer to [Pulumi Azure Native Getting Started](https://www.pulumi.com/docs/iac/get-started/azure/)
@@ -225,13 +225,30 @@ runtime:
 pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
 ```
 
-### Build the Native Distribution
+### experiment Build the Native Distribution
+
+upload local build of distro
+chmod +x kubernetes-azure-spinnaker/bin/kubernetes-azure-spinnaker
+
+get JDK25
+curl -s "https://get.sdkman.io" | bash
+
+SDK_MAN_JAVA_VERSION="25.0.3-ms"
+sdk install java $SDK_MAN_JAVA_VERSION
 
 Pulumi.yaml
 
-kubernetes-azure-spinnaker/Pulumi.yaml
+wget --verbose https://raw.githubusercontent.com/aleon1220/spinnaker-contrib-playground/refs/heads/2026-05-may-improvements/kubernetes-azure-spinnaker/Pulumi.yaml
 
-wget --verbose https://github.com/aleon1220/spinnaker-contrib-playground/blob/14e7f00c7f19de0ef5804eb4c29b74391a22e7e9/kubernetes-azure-spinnaker/Pulumi.yaml
+pulumi login
+<token https://app.pulumi.com/account/tokens>
+PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
+pulumi stack select $PULUMI_STACK
+
+PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox"
+pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+
+pulumi up --verbose 3 # observe behavior
 
 ## References
 

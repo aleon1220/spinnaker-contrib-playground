@@ -6,6 +6,10 @@ runtime:
     binary: gradle run --console=plain
     # Point directly to the generated Bash script, NOT a .jar file
     # binary: kubernetes-azure-spinnaker/bin/kubernetes-azure-spinnaker
+packages:
+  azure-native:
+    version: 3.18.0
+
 config:
   pulumi:tags:
     value:
@@ -16,3 +20,7 @@ config:
   resourceGroupName:
     description: The name of the resource group
     value: anz-devops-sre-platform-engineering-research-dev
+# plugins:
+#   providers:
+#     - name: azure-native
+#       version: 3.18.0
