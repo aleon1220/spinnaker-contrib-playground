@@ -1,0 +1,26 @@
+name: kubernetes-azure-spinnaker # Project name
+description: Spinnaker Stack on Azure Kubernetes
+runtime:
+  name: java
+  options:
+    binary: gradle run --console=plain
+    # Point directly to the generated Bash script, NOT a .jar file
+    # binary: kubernetes-azure-spinnaker/bin/kubernetes-azure-spinnaker
+packages:
+  azure-native:
+    version: 3.18.0
+
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: azure-java
+  azure-native:location:
+    description: The Azure location to deploy resources to
+    value: eastus
+  resourceGroupName:
+    description: The name of the resource group
+    value: anz-devops-sre-platform-engineering-research-dev
+# plugins:
+#   providers:
+#     - name: azure-native
+#       version: 3.18.0
