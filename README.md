@@ -51,32 +51,6 @@ todo: fetch the artifact and deploy the infrastructure from a cloud-shell
 
 ### ⚙️ Getting Started
 
-* clone this repo
-
-```bash
-git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
-```
-
-* **install pulumi if not present**
-
-```bash
-curl -fsSL https://get.pulumi.com | sh
-```
-
-* pulumi check
-
-```bash
-pulumi version
-```
-
-**Run IaC examples**
-
-* go to the directory with the pulumi stack and execute
-
-```bash
-pulumi up
-```
-
 ---
 
 ## Spinnaker installation
