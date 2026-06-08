@@ -23,7 +23,7 @@ leveraging the pulumi Azure Native provider. This template provisions:
 * navigate to `workdir`
 
   ```bash
-  pushd kubernetes-azure-spinnaker
+  pushd spinnaker-contrib-playground/kubernetes-azure-spinnaker
   ```
 
 * install sdkman to handle gradle and java
@@ -49,15 +49,45 @@ leveraging the pulumi Azure Native provider. This template provisions:
 
     ```bash
     curl -fsSL https://get.pulumi.com | sh
+    ```
+
+* refresh the shell to add the installations
+
+    ```bash
     bash
-    pulumi version
+    ```
+
+* get dependencies and prep java code
+
+    ```bash 
+    gradle clean build
+    ```
+
+* set resource group name
+
+    ```bash
+    export PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
+
+    echo $PLURALSIGHT_RG_NAME
+    ```
+
+* set pulumi stack. Enter the pulumi token
+
+    ```bash
+    pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
+    ```
+
+* set pulumi config 
+
+    ```bash
+    pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
     ```
 
 * create the AKS cluster
 
-```bash
-pulumi up
-```
+    ```bash
+    pulumi up
+    ```
 
 ---
 
@@ -74,19 +104,14 @@ pulumi up
 * set authentication using a Service Principal
 
     ```bash
-    PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
-    pulumi stack select $PULUMI_STACK
-    
-    PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox" 
-    pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
-    
+    PULUMI_STACK="c"
     pulumi config set azure-native:useDefaultAzureCredential false
     pulumi config set azure-native:subscriptionId $ARM_SUBSCRIPTION_ID
      
     gradle clean build 2>&1
     
     tree -L 2
-    
+    PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox" 
     pulumi config list
     pulumi config -j | jq
     pulumi up
