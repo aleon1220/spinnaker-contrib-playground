@@ -1,0 +1,2 @@
+config:
+  kubernetes-azure-spinnaker:resourceGroupName: 1-049bf536-playground-sandbox

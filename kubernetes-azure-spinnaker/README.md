@@ -161,14 +161,13 @@ pulumi config set azure-native:subscriptionId $ARM_SUBSCRIPTION_ID
 * Build and validate the project
 
 ```bash
-gradle clean build 2>&1
-tree -L 2
+./gradlew clean build 2>&1
 ```
 
 * Validate Pulumi config and deploy
 
 ```bash
-pulumi config list
+pulumi config
 pulumi config -j | jq
 pulumi up
 ```
@@ -179,10 +178,10 @@ pulumi up
 java --version
 ```
 
-* Set the Pulumi resource group for Pluralsight
+* Set the Pulumi resource group name provided by Pluralsight Azure Sandbox
 
 ```bash
-PLURALSIGHT_RG_NAME=""
+PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
 pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
 ```
 
@@ -190,6 +189,12 @@ pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
 
 ```bash
 pulumi up
+```
+
+* check structure of working dir
+
+```bash
+tree -L 2
 ```
 
 ---
@@ -202,6 +207,7 @@ pulumi up
 export APP_ID="$ARM_CLIENT_ID"
 export CLIENT_SECRET="$ARM_CLIENT_SECRET"
 export TENANT_ID="$ARM_TENANT_ID"
+
 az login --service-principal --username $APP_ID --password $CLIENT_SECRET --tenant $TENANT_ID
 az account set --subscription $ARM_SUBSCRIPTION_ID
 az group list
