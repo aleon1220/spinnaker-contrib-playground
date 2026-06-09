@@ -95,6 +95,24 @@ pulumi up
 
 ## Local execution on Linux
 
+using <https://www.mermaidflow.app/editor> i can see the icons
+
+```mermaid
+architecture-beta
+    %% Define the services and groups
+    service user(logos:cloud)[User]
+    service linux(logos:linux-tux)[Linux Instance]
+    service pulumi(logos:pulumi)[Pulumi v3245]
+    
+    group azure(logos:azure)[Azure Account]
+    service aks(logos:kubernetes)[AKS Cluster] in azure
+    
+    %% Define the directional connections (L=Left, R=Right)
+    user:R -- L:linux
+    linux:R -- L:pulumi
+    pulumi:R -- L:aks
+```
+
 * Install Pulumi
 
 ```bash
