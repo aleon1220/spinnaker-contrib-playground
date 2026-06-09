@@ -4,7 +4,7 @@
 axion = "1.21.2"
 azureNative = "3.19.0"
 catalogUpdateVersion_version = "1.1.0"
-pulumiJava = "1.29.0"
+pulumiJava = "1.28.0"
 shadow = "9.4.2"
 spotless = "8.6.0"
 versionUpdate_version = "0.54.0"
@@ -23,5 +23,6 @@ versionUpdate = { id = "com.github.ben-manes.versions", version.ref = "versionUp
 [libraries]
 # Source: https://mvnrepository.com/artifact/com.pulumi/azure-native
 azureNative = { module = "com.pulumi:azure-native", version.ref = "azureNative" }
+
 # Source: https://mvnrepository.com/artifact/com.pulumi/pulumi
 pulumiJava = { module = "com.pulumi:pulumi", version.ref = "pulumiJava" }
