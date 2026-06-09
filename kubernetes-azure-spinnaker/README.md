@@ -199,7 +199,7 @@ tree -L 2
 
 ---
 
-## Azure authentication and setup
+### Azure authentication and setup
 
 * Verify Azure CLI service principal authentication
 
@@ -213,13 +213,27 @@ az account set --subscription $ARM_SUBSCRIPTION_ID
 az group list
 ```
 
-* Validate the `az` CLI state
+### Azure validation
+
+* Validate the account
 
 ```bash
 az account list --output table
-az account show
 az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
+
+
 az account show | jq
+```
+
+* validate resource group
+
+```bash
+az group list --query "[?location=='westus']"
+```
+
+* check rg in specific location
+
+```bash
 az group list --query "[?location=='westus']"
 ```
 
@@ -232,12 +246,31 @@ if [ -z "$PLURALSIGHT_RG_NAME" ] || [ -z "$CLUSTER_NAME" ]; then
   echo "Error: PLURALSIGHT_RG_NAME or CLUSTER_NAME is not set."
 fi
 
+echo "proceed"
+
 az aks get-credentials --resource-group "$PLURALSIGHT_RG_NAME" --name "$CLUSTER_NAME" --admin --overwrite-existing
+```
+
+* set clustername
+
+```bash
+CLUSTER_NAME=$(az aks list --resource-group $PLURALSIGHT_RG_NAME --query "[0].name" -o tsv)
+```
+
+* Verify it worked
+
+```bash
+echo $CLUSTER_NAME
 ```
 
 ## Outputs
 
 * Review the Pulumi stack output for cluster details and any exported values
+* get AKS cluster
+
+```bash
+az aks list --query "[0].name" -o tsv
+```
 
 ## Connect to the AKS cluster
 
