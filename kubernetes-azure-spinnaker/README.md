@@ -1,260 +1,207 @@
-# Pulumi java AKS
+# Pulumi Java AKS
 
-leveraging the pulumi Azure Native provider. This template provisions:
+This template provisions:
 
-* An Azure Resource Group
-* the rg name or use the rg provided by Pluralsight Sandboxes
+* Azure Resource Group
 * AKS cluster
+* Optionally use an existing Pluralsight sandbox resource group
 
 ## Prerequisites
 
-* launch [Pluralsight Hands-On Playground](https://app.pluralsight.com/hands-on/playground/cloud-sandboxes)
-* prefer a browser with incognito mode
+* Azure account with credits
+* Pluralsight Hands-On Cloud Playground (optional)
+* Java 11 or higher installed
+* Gradle installed
+* Pulumi CLI installed and logged in
+* Azure CLI configured for your target subscription
 
-### local execution Azure Cloud Shell
+## Local execution using Azure Cloud Shell
 
-* create cloud Shell Azure
-* clone this repo
+* Clone the repo
 
-    ```bash
-    git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
-    ```
+```bash
+git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
+```
 
-* navigate to `workdir`
+* Change into the Pulumi project directory
 
-  ```bash
-  pushd spinnaker-contrib-playground/kubernetes-azure-spinnaker
-  ```
+```bash
+pushd spinnaker-contrib-playground/kubernetes-azure-spinnaker
+```
 
-* install sdkman to handle gradle and java
+* Install SDKMAN to manage Java and Gradle
 
-    ```bash
-    curl -s "https://get.sdkman.io" | bash
-    ```
+```bash
+curl -s "https://get.sdkman.io" | bash
+```
 
-* get JDK25
+* Install JDK 25
 
-    ```bash
-    SDK_MAN_JAVA_VERSION="25.0.3-ms"
-    sdk install java $SDK_MAN_JAVA_VERSION
-    ```
+```bash
+SDK_MAN_JAVA_VERSION="25.0.3-ms"
+sdk install java $SDK_MAN_JAVA_VERSION
+```
 
-* install gradle
+* Install Gradle
 
-    ```bash
-    sdk install gradle
-    ```
+```bash
+sdk install gradle
+```
 
-* **install pulumi**
+* Install Pulumi
 
-    ```bash
-    curl -fsSL https://get.pulumi.com | sh
-    ```
+```bash
+curl -fsSL https://get.pulumi.com | sh
+```
 
-* refresh the shell to add the installations
+* Reload the shell after installation
 
-    ```bash
-    bash
-    ```
+```bash
+bash
+```
 
-* get dependencies and prep java code
+* Build the Java project
 
-    ```bash 
-    gradle clean build
-    ```
+```bash
+gradle clean build
+```
 
-* set resource group name
+* Set the target resource group name
 
-    ```bash
-    export PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
+```bash
+export PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
+echo $PLURALSIGHT_RG_NAME
+```
 
-    echo $PLURALSIGHT_RG_NAME
-    ```
+* Select the Pulumi stack
 
-* set pulumi stack. Enter the pulumi token
+```bash
+pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
+```
 
-    ```bash
-    pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
-    ```
+* Configure Pulumi with the resource group
 
-* set pulumi config 
+```bash
+pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+```
 
-    ```bash
-    pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
-    ```
+* Deploy the AKS cluster
 
-* create the AKS cluster
-
-    ```bash
-    pulumi up
-    ```
+```bash
+pulumi up
+```
 
 ---
 
-### local execution Linux instance
+## Local execution on Linux
 
-* set pulumi
+* Install Pulumi
 
-    ```bash
-    curl -fsSL https://get.pulumi.com | sh
-    bash
-    pulumi version
-    ```
+```bash
+curl -fsSL https://get.pulumi.com | sh
+bash
+pulumi version
+```
 
-* set authentication using a Service Principal
+* Select the Pulumi stack
 
-    ```bash
-    PULUMI_STACK="c"
-    pulumi config set azure-native:useDefaultAzureCredential false
-    pulumi config set azure-native:subscriptionId $ARM_SUBSCRIPTION_ID
-     
-    gradle clean build 2>&1
-    
-    tree -L 2
-    PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox" 
-    pulumi config list
-    pulumi config -j | jq
-    pulumi up
-    ```
+```bash
+PULUMI_STACK="azure-k8s-playground"
+pulumi stack select "aleon1220/kubernetes-azure-spinnaker/$PULUMI_STACK"
+```
 
-* An Azure account with credentials configured (for example, via `az login` or setting environment variables `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, and `ARM_SUBSCRIPTION_ID`).
-
-Azure publishes an open configuration file for every domain that exposes the Tenant ID publicly.
-
-* set the domain tenant e.g. the pluralsight cloud hands on boxes domain
+* Configure Azure subscription credentials
 
 ```bash
 DOMAIN_TENANT="realhandsonlabs.com"
-```
-
-* extract tenant id from domain name
-
-  ```bash
-  export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
-
-  echo $ARM_TENANT_ID
-  ```
-
-* Java 11 or higher installed
-
-```bash
-
-```
-
-* install gradle
-
-  ```bash
-
-  ```
-
-* Pulumi CLI installed and logged in
-
-Pulumi [tokens](https://app.pulumi.com/account/tokens)
-
-  ```bash
-
-  ```
-
-* refer to [Pulumi Azure Native Java Getting Started](https://www.pulumi.com/docs/intro/languages/java/)
-* refer to [Pulumi Azure Native Getting Started](https://www.pulumi.com/docs/iac/get-started/azure/)
-
-* connect to the target azure account
-
-* set variables according to plural sight restrictions
-
-  ```bash
-  PLURALSIGHT_RG_NAME="" && pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
-  ```
-
-* run the pulumi stack
-
-  ```bash
-  pulumi up
-  ```
-
----
-
-## Outputs
-
-* pulumi stack shows the priority outputs
-
-## Connect to the AKS cluster
-
-* set `kubectl` with details of the AKS cluster
-
-```bash
-az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME --admin
-```
-
-* smoke test connectivity to cluster
-
-```bash
-kubectl get nodes
-```
-
----
-
-## Next Steps
-
-* use deployment with FatJar
-* Use multiple Pulumi stacks for different environments (development, staging, production).
-* Integrate Pulumi into your CI/CD pipeline.
-* Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/).
-
-## Getting Help
-
-you have questions or encounter any issues:
-
-* Check out the [Pulumi Documentation](https://www.pulumi.com/docs/).
-* Join the [Pulumi Community Slack](https://slack.pulumi.com/) for support.
-* File an issue in this repository.
-
-## Azure Authentication & Robustness Notes
-
-### Azure CLI Authentication using a Service Principal
-
-For detailed instructions on authenticating with Azure CLI using a Service Principal and environment variables, please refer to the official [Azure CLI Documentation](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-service-principal). You will need to have the following environment variables available: `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, and `ARM_SUBSCRIPTION_ID`.
-
-### Azure CLI validation commands
-
-```bash
-export ARM_SUBSCRIPTION_ID="80ea84e8-afce-4851-928a-9e2219724c69"
-export ARM_USE_DEFAULT_AZURE_CREDENTIAL=false
-
-echo $ARM_SUBSCRIPTION_ID
-echo $ARM_CLIENT_ID
-echo $ARM_CLIENT_SECRET
+export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
 echo $ARM_TENANT_ID
-echo $ARM_LOCATION_NAME
+```
 
-AZURE_TENANT_ID="$ARM_TENANT_ID"
+* Set required service principal environment variables
 
+```bash
+export ARM_CLIENT_ID="<YOUR_APPLICATION_CLIENT_ID>"
+export ARM_CLIENT_SECRET="<YOUR_SECRET>"
+export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+```
+
+* Login with Azure CLI using service principal
+
+```bash
+az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+```
+
+* Configure Pulumi to use explicit Azure credentials
+
+```bash
+pulumi config set azure-native:useDefaultAzureCredential false
+pulumi config set azure-native:subscriptionId $ARM_SUBSCRIPTION_ID
+```
+
+* Build and validate the project
+
+```bash
+gradle clean build 2>&1
+tree -L 2
+```
+
+* Validate Pulumi config and deploy
+
+```bash
+pulumi config list
+pulumi config -j | jq
+pulumi up
+```
+
+* Confirm Java is installed
+
+```bash
+java --version
+```
+
+* Set the Pulumi resource group for Pluralsight
+
+```bash
+PLURALSIGHT_RG_NAME=""
+pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+```
+
+* Deploy the stack
+
+```bash
+pulumi up
+```
+
+---
+
+## Azure authentication and setup
+
+* Verify Azure CLI service principal authentication
+
+```bash
 export APP_ID="$ARM_CLIENT_ID"
 export CLIENT_SECRET="$ARM_CLIENT_SECRET"
 export TENANT_ID="$ARM_TENANT_ID"
-
-echo $APP_ID && echo $CLIENT_SECRET && echo $TENANT_ID 
-
 az login --service-principal --username $APP_ID --password $CLIENT_SECRET --tenant $TENANT_ID
-
+az account set --subscription $ARM_SUBSCRIPTION_ID
+az group list
 ```
 
-* validate `az` cli
+* Validate the `az` CLI state
 
-    ```bash
-    az account list --output table
-    az account show
-    az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
-    az account show | jq
-    az group list --query "[?location=='westus']" 
-    az account show --query id -o tsv
-    az account set --subscription $ARM_SUBSCRIPTION_ID
-    az group list
-    ```
+```bash
+az account list --output table
+az account show
+az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
+az account show | jq
+az group list --query "[?location=='westus']"
+```
 
-### Robust AKS Cluster Connection
+### Robust AKS kubeconfig connection
 
-To ensure a robust connection to the AKS cluster, verify that the `PLURALSIGHT_RG_NAME` and `CLUSTER_NAME` variables are set, and use the `--overwrite-existing` flag if you want to overwrite any existing cluster configurations in your kubeconfig
+* Ensure the resource group and cluster name are set
 
 ```bash
 if [ -z "$PLURALSIGHT_RG_NAME" ] || [ -z "$CLUSTER_NAME" ]; then
@@ -264,64 +211,38 @@ fi
 az aks get-credentials --resource-group "$PLURALSIGHT_RG_NAME" --name "$CLUSTER_NAME" --admin --overwrite-existing
 ```
 
-### smoke test a Kubernetes deployment
+## Outputs
 
-from docs in K8s <https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/>
+* Review the Pulumi stack output for cluster details and any exported values
 
-## Notes running cloud Shell Azure
+## Connect to the AKS cluster
+
+* Set kubectl credentials
 
 ```bash
-cloud [ ~ ]$ vim Pulumi.yaml
-
-cloud [ ~ ]$ pulumi stack
-Please choose a stack, or create a new one: <create a new stack>
-Please enter your desired stack name.
-To create a stack in an organization, use the format <org-name>/<stack-name> (e.g. `acmecorp/dev`): aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker 
-Please enter your desired stack name.
-Current stack is cloudshell-aks-spinnaker:
-    Owner: aleon1220
-    Tags:
-        pulumi:description  A precompiled Java Pulumi program
-        pulumi:project      cloudshell-aks-spinnaker
-        pulumi:runtime      java
-Current stack resources (0):
-    No resources currently in this stack
-
-More information at: https://app.pulumi.com/aleon1220/cloudshell-aks-spinnaker/cloudshell-aks-spinnaker
-
-Use `pulumi stack select` to change stack; `pulumi stack ls` lists known ones
-
-echo "Pulumi.yaml needs to be present"
-
-name: kubernetes-azure-spinnaker 
-description: A precompiled Java Pulumi program 
-runtime:
-  name: java
-  options:
-    binary: kubernetes-azure-spinnaker-0.1.0-2026-05-may-improvements-SNAPSHOT-all.jar
-
-
-pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
+az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME --admin
 ```
 
-### experiment Build the java Native Distribution
+* Verify cluster nodes
 
-upload local build of distro
-chmod +x kubernetes-azure-spinnaker/bin/kubernetes-azure-spinnaker
+```bash
+kubectl get nodes
+```
 
-Pulumi.yaml
+---
 
-wget --verbose https://raw.githubusercontent.com/aleon1220/spinnaker-contrib-playground/refs/heads/2026-05-may-improvements/kubernetes-azure-spinnaker/Pulumi.yaml
+## Next steps
 
-pulumi login
-<token https://app.pulumi.com/account/tokens>
-PULUMI_STACK="aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker"
-pulumi stack select $PULUMI_STACK
+* Deploy your application using a FatJar
+* Use multiple Pulumi stacks for development, staging, and production
+* Integrate Pulumi into CI/CD pipelines
+* Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/)
 
-PLURALSIGHT_RG_NAME="todo_name_given_by_pluralsight_cloud_sandbox"
-pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+## Getting help
 
-pulumi up --verbose 3 # observe behavior
+* Check out the [Pulumi Documentation](https://www.pulumi.com/docs/)
+* Join the [Pulumi Community Slack](https://slack.pulumi.com/)
+* File an issue in this repository
 
 ## References
 
