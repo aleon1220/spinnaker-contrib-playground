@@ -18,9 +18,9 @@ import com.pulumi.azurenative.dbformysql.inputs.SkuArgs;
 public class App {
         public static void main(String[] args) {
                 Pulumi.run(ctx -> {
-                        Config config = null; 
-                        var resourceGroup = "anz-devops-sre-platform-engineering-research-dev";
-                        var locationName = "WestUS2";
+                        var config = ctx.config();
+                        var resourceGroup = config.get("resourceGroupName").orElse("rg-tmp-spinnaker");
+                        var location = config.get("azure-native:location").orElse("eastus");
 
                         // Server configuration - use secrets for credentials
                         var sqlAdminUsername = ctx.config().require("sqlAdminUsername");
@@ -31,7 +31,7 @@ public class App {
                         // Azure will automatically deploy the latest supported minor version (e.g., 8.0.36+) behind the scenes.
                         var mysqlServer = new Server("mysqlserver", ServerArgs.builder()
                                         .resourceGroupName(resourceGroup)
-                                        .location(locationName)
+                                        .location(location)
                                         .administratorLogin(sqlAdminUsername)
                                         .administratorLoginPassword(sqlAdminPassword)
                                         .version("8.0.21") 
