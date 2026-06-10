@@ -8,4 +8,6 @@
 rootProject.name = "spinnaker-contrib-playground"
 
 include("kubernetes-azure-spinnaker")
-include("kubernetes-azure-spinnaker-db")
+include("kubernetes-azure-spinnaker-db-mysql")
+include("kubernetes-azure-spinnaker-db-postgres")
+
