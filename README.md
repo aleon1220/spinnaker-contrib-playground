@@ -14,9 +14,9 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 * [x] Get a stable pulumi IaC AKS cluster and access it from the CLI ✅ 📅 2026-05-09
 * [x] Add pulumi flow to deploy AKS: runs as a gradle project calling the gradle subprojects
 * [x] Add Pulumi modules for Azure environments with the azure-native provider
-* [ ] enable semVer to handle the IaC pulumi releases
+* [x] enable semVer to handle the IaC pulumi releases
 * [ ] define and document execution flow local, in Cloud shells and from Github actions
-* [ ] install Spinnaker with Kustomize
+* [x] install Spinnaker with Kustomize ✅ 📅 2026-06-09 i have to upgrade dependencies and is not a fully functional spinnaker.
 * [ ] Create example Spinnaker pipeline for multi-cloud deployment
 * [ ] Integrate with GitHub Actions for CI
 * [ ] Explore Spinnaker Operator for Kubernetes
