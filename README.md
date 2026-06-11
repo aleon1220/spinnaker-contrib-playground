@@ -10,7 +10,7 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 
 ---
 
-### 🧭 Roadmap
+## 🧭 Roadmap
 * [x] Get a stable pulumi IaC AKS cluster and access it from the CLI ✅ 📅 2026-05-09
 * [x] Add pulumi flow to deploy AKS: runs as a gradle project calling the gradle subprojects
 * [x] Add Pulumi modules for Azure environments with the azure-native provider
@@ -21,10 +21,61 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 * [ ] Integrate with GitHub Actions for CI
 * [ ] Explore Spinnaker Operator for Kubernetes
 * [ ] Add contributors and community guidelines
+* [] fetch the artifact and deploy the infrastructure from a cloud-shell
 
 ---
 
 ## Spinnaker running in AKS via Pulumi IaC
+
+### create a temporary Azure sandbox
+
+1. https://app.pluralsight.com/hands-on/playground/cloud-sandboxes 
+2. open sandbox 
+3. use a browser with private or incognito mode
+4. you will get the following
+    - Username to access the azure portal
+    - Password to access the azure portal
+    - Application Client ID: to be used with the `az` cli
+    - Application Client Secret: to be used with the `az` cli for authentication
+
+### connect azure CLI to azure sandbox subscription
+
+```bash
+DOMAIN_TENANT="realhandsonlabs.com"
+export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
+echo $ARM_TENANT_ID
+```
+
+* Set required service principal environment variables
+
+```bash
+export ARM_CLIENT_ID="<YOUR_APPLICATION_CLIENT_ID>"
+export ARM_CLIENT_SECRET="<YOUR_SECRET>"
+export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+```
+
+* Login with Azure CLI using service principal
+
+    ```bash
+    az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
+    ```
+
+* login to [azure portal](https://portal.azure.com/) 
+
+* open a cloud shell bash
+
+* obtain the tenant ID
+
+    ```bash
+    export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+    ```
+
+* set resource group
+
+```bash
+PLURALSIGHT_RG_NAME=$(az group list --query "[?location=='westus']" | jq -r '.[0].name')
+echo $PLURALSIGHT_RG_NAME
+```
 
 ### 🚀 Purpose
 
@@ -43,9 +94,9 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 
 ---
 
-## Cloud execution
+## Plural sight Azure Cloud execution
 
-todo: fetch the artifact and deploy the infrastructure from a cloud-shell
+todo: 
 
 ## Local Execution 🚀
 
@@ -55,7 +106,7 @@ todo: fetch the artifact and deploy the infrastructure from a cloud-shell
 
 ## Spinnaker installation
 
-> it seems spinnaker is hard to install
+> it seems spinnaker is hard to install. Halyard is deprecated
 
 * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
 

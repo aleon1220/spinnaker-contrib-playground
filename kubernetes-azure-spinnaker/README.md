@@ -10,8 +10,8 @@ This template provisions:
 
 * Azure account with credits
 * Pluralsight Hands-On Cloud Playground (optional)
-* Java 11 or higher installed
-* Gradle installed
+* Java 17 or higher installed
+* Gradle 9 or higher installed
 * Pulumi CLI installed and logged in
 * Azure CLI configured for your target subscription
 
@@ -237,7 +237,7 @@ az group list --query "[?location=='westus']"
 az group list --query "[?location=='westus']"
 ```
 
-### Robust AKS kubeconfig connection
+## Robust AKS kubeconfig connection
 
 * Ensure the resource group and cluster name are set
 
@@ -263,7 +263,7 @@ CLUSTER_NAME=$(az aks list --resource-group $PLURALSIGHT_RG_NAME --query "[0].na
 echo $CLUSTER_NAME
 ```
 
-## Outputs
+### Outputs
 
 * Review the Pulumi stack output for cluster details and any exported values
 * get AKS cluster
@@ -272,7 +272,7 @@ echo $CLUSTER_NAME
 az aks list --query "[0].name" -o tsv
 ```
 
-## Connect to the AKS cluster
+### Connect to the AKS cluster
 
 * Set kubectl credentials
 
@@ -287,6 +287,24 @@ kubectl get nodes
 ```
 
 ---
+
+### spinnaker validation
+
+* after deploying spinnaker with kustomize
+
+* watch pods in the spinnaker namespace
+
+```bash
+watch kubectl get pods -n spinnaker
+```
+
+* get ingress address
+
+```bash
+kubectl get ingress -n spinnaker
+```
+
+* update `/etc/hosts`
 
 ## Next steps
 
