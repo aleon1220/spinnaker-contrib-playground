@@ -96,7 +96,73 @@ echo $PLURALSIGHT_RG_NAME
 
 ### connect azure CLI to azure sandbox subscription Windows 🚀
 
+* Set Required Service Principal Environment Variables
 
+PowerShell handles session-based environment variables using the $env: scope.
+
+```PowerShell
+$env:ARM_CLIENT_ID     = op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Application Client ID"
+$env:ARM_CLIENT_SECRET = "<YOUR_SECRET>"
+```
+
+* login to portal.azure.com and obtain the Tenant ID from a cloudshell powershell
+
+```PowerShell
+az account show --output Table
+```
+
+* obtain the TenantId from a table output and set it to an env variable
+```PowerShell
+$env:ARM_TENANT_ID = "value from portal.azure"
+```
+
+* Login with Azure CLI using the Service Principal
+Because we used $env:, these variables are seamlessly passed to the az executable.
+
+```PowerShell
+az login --service-principal --username $env:ARM_CLIENT_ID --password $env:ARM_CLIENT_SECRET --tenant $env:ARM_TENANT_ID
+```
+
+* Using Azure CLI's built-in TSV output directly into the variable. Name is usually P9-Real Hands-On Labs
+
+```PowerShell
+$env:ARM_SUBSCRIPTION_ID = az account show --query id -o tsv
+```
+
+* Set the Resource Group without jq
+
+let Azure CLI output standard JSON, convert it into a PowerShell object, filter it, and access the exact property we need—no third-party parsers required.
+
+```PowerShell
+# Option A: The PowerShell Object Way (Clean Architecture)
+$ResourceGroups = az group list --output json | ConvertFrom-Json
+
+# Option B: The Frugal JMESPath Way (Leveraging Azure CLI natively)
+
+$PluralsightRgName = az group list --query "[0].name" --output tsv
+
+Write-Output "Selected azure Resource Group: $PluralsightRgName"
+```
+
+* Retrieve the Tenant ID via OpenID Configuration
+
+```PowerShell
+$DomainTenant = "realhandsonlabs.com"
+```
+
+* Invoke-RestMethod natively parses the JSON response into an object
+
+```PowerShell
+$OpenIdConfig = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$DomainTenant/.well-known/openid-configuration"
+```
+
+* The issuer URL is "https://sts.windows.net/{tenant_id}/". We split by '/' and grab the 4th element (index 3).
+
+```PowerShell
+$env:ARM_TENANT_ID = ($OpenIdConfig.issuer -split '/')[3]
+
+Write-Output "Retrieved Tenant ID: $env:ARM_TENANT_ID"
+```
 
 ---
 

@@ -213,7 +213,42 @@ az account set --subscription $ARM_SUBSCRIPTION_ID
 az group list
 ```
 
-### Spinnaker running in AKS via Pulumi IaC
+### Spinnaker running in AKS via Pulumi IaC Windows
+
+* prepare for deploying the stack
+
+```PowerShell
+
+pulumi config set azure-native:useDefaultAzureCredential false
+pulumi config set azure-native:subscriptionId "ADD ARM_SUBSCRIPTION_ID"
+```
+
+* Build and validate the project
+
+```PowerShell
+./gradlew.bat clean build
+```
+
+* Validate Pulumi config. 
+
+pulumi will ask you to authenticate and select or create a stack
+
+```PowerShell
+pulumi config
+```
+
+* Set the Pulumi resource group name provided by Pluralsight Azure Sandbox
+
+```PowerShell
+$env:PLURALSIGHT_RG_NAME = (az group list --query "[0].name" --output tsv)
+pulumi config set resourceGroupName $env:PLURALSIGHT_RG_NAME
+```
+
+* Deploy the stack
+
+```PowerShell
+pulumi up
+```
 
 ### Azure validation
 
@@ -223,14 +258,13 @@ az group list
 az account list --output table
 az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
 
-
 az account show | jq
 ```
 
 * validate resource group
 
 ```bash
-az group list --query "[?location=='westus']"
+az group list
 ```
 
 * check rg in specific location
@@ -239,7 +273,7 @@ az group list --query "[?location=='westus']"
 az group list --query "[?location=='westus']"
 ```
 
-## Robust AKS kubeconfig connection
+## Robust AKS kubeconfig connection linux
 
 * Ensure the resource group and cluster name are set
 
@@ -287,6 +321,8 @@ az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAM
 ```bash
 kubectl get nodes
 ```
+
+## AKS kubeconfig connection windows
 
 ---
 
