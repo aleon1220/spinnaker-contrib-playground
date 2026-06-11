@@ -213,6 +213,8 @@ az account set --subscription $ARM_SUBSCRIPTION_ID
 az group list
 ```
 
+### Spinnaker running in AKS via Pulumi IaC
+
 ### Azure validation
 
 * Validate the account
@@ -318,6 +320,27 @@ kubectl get ingress -n spinnaker
 * Check out the [Pulumi Documentation](https://www.pulumi.com/docs/)
 * Join the [Pulumi Community Slack](https://slack.pulumi.com/)
 * File an issue in this repository
+
+## Spinnaker installation
+
+> it seems spinnaker is hard to install. Halyard is deprecated
+
+* [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
+
+### effort 2026-02-04
+
+```bash
+Halyard version will be 1.70.0 
+Halyard will be downloaded from the spinnaker-community repository 
+Halconfig will be stored at /home/spinnaker/.hal/config
+Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
+
+# lots of install output
+Halyard version: 2025.4.1
+```
+
+* Configure your cloud provider account (Azure, AWS, GCP)
+* Apply sample pipeline manifests from `/pipelines`
 
 ## References
 

@@ -10,6 +10,23 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 
 ---
 
+### 🚀 Purpose
+
+This project serves as a **sandbox** for:
+
+* Experimenting with **Spinnaker pipelines**, triggers, and deployment strategies
+* Building **Infrastructure as Code** workflows for consistent, automated environments
+* Sharing **community contributions**, scripts, and reusable modules
+* Testing integration with major cloud providers (Azure, AWS, GCP)
+
+---
+
+### 🧩 Structure
+
+should be as simple and intuitive as possible. A gradle project with subprojects to execute different platform engineering experiments.
+
+---
+
 ## 🧭 Roadmap
 * [x] Get a stable pulumi IaC AKS cluster and access it from the CLI ✅ 📅 2026-05-09
 * [x] Add pulumi flow to deploy AKS: runs as a gradle project calling the gradle subprojects
@@ -25,7 +42,7 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
 
 ---
 
-## Spinnaker running in AKS via Pulumi IaC
+## Plural sight Azure Cloud execution
 
 ### create a temporary Azure sandbox
 
@@ -38,7 +55,7 @@ the purpose is to repeatably install Spinnaker so many times that it gets more a
     - Application Client ID: to be used with the `az` cli
     - Application Client Secret: to be used with the `az` cli for authentication
 
-### connect azure CLI to azure sandbox subscription
+### connect azure CLI to azure sandbox subscription Linux
 
 ```bash
 DOMAIN_TENANT="realhandsonlabs.com"
@@ -77,53 +94,11 @@ PLURALSIGHT_RG_NAME=$(az group list --query "[?location=='westus']" | jq -r '.[0
 echo $PLURALSIGHT_RG_NAME
 ```
 
-### 🚀 Purpose
+### connect azure CLI to azure sandbox subscription Windows 🚀
 
-This project serves as a **sandbox** for:
 
-* Experimenting with **Spinnaker pipelines**, triggers, and deployment strategies
-* Building **Infrastructure as Code** workflows for consistent, automated environments
-* Sharing **community contributions**, scripts, and reusable modules
-* Testing integration with major cloud providers (Azure, AWS, GCP)
 
 ---
-
-### 🧩 Structure
-
-should be as simple and intuitive as possible. A gradle project with subprojects to execute different platform engineering experiments.
-
----
-
-## Plural sight Azure Cloud execution
-
-todo: 
-
-## Local Execution 🚀
-
-### ⚙️ Getting Started
-
----
-
-## Spinnaker installation
-
-> it seems spinnaker is hard to install. Halyard is deprecated
-
-* [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
-
-### effort 2026-02-04
-
-```bash
-Halyard version will be 1.70.0 
-Halyard will be downloaded from the spinnaker-community repository 
-Halconfig will be stored at /home/spinnaker/.hal/config
-Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
-
-# lots of install output
-Halyard version: 2025.4.1
-```
-
-* Configure your cloud provider account (Azure, AWS, GCP)
-* Apply sample pipeline manifests from `/pipelines`
 
 ### 🤝 Contributing
 

@@ -1,6 +1,6 @@
 # mySQL DB provided by pulumi
 
-## prepare the execution enviro
+## build prepare the execution environment Linux
 
 ```bash
 ./gradlew :kubernetes-azure-spinnaker-db-mysql:build
