@@ -38,7 +38,8 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 * [ ] Integrate with GitHub Actions for CI
 * [ ] Explore Spinnaker Operator for Kubernetes
 * [ ] Add contributors and community guidelines
-* [ ] fetch the Fat Jar artifact and deploy the infrastructure from Azure cloud-shell
+* [ ] Use multiple Pulumi stacks to track history win11, wsl, cloudshell
+* [ ] document cleaning of pulumi stacks
 
 ---
 

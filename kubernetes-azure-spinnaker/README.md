@@ -371,12 +371,7 @@ kubectl get ingress -n spinnaker
 
 * update `/etc/hosts`
 
-## Next steps
-
-* Deploy your application using a FatJar
-* Use multiple Pulumi stacks for development, staging, and production
-* Integrate Pulumi into CI/CD pipelines
-* Explore the Pulumi Azure Native SDK in the [Pulumi Registry](https://www.pulumi.com/registry/packages/azure-native/)
+---
 
 ## Getting help
 
