@@ -223,13 +223,13 @@ pulumi config set azure-native:useDefaultAzureCredential false
 pulumi config set azure-native:subscriptionId $env:ARM_SUBSCRIPTION_ID
 ```
 
-* Build and validate the project
+* from root project -> Build and validate the project
 
 ```PowerShell
 ./gradlew.bat clean build :kubernetes-azure-spinnaker:build
 ```
 
-* Validate Pulumi config. 
+* from `kubernetes-azure-spinnaker` Validate Pulumi config
 
 pulumi will ask you to authenticate and select or create a stack
 
@@ -246,9 +246,9 @@ pulumi config set resourceGroupName $env:PLURALSIGHT_RG_NAME
 
 * Deploy the stack
 
-```PowerShell
-pulumi up
-```
+    ```PowerShell
+    pulumi up
+    ```
 
 ### Azure validation
 
@@ -282,15 +282,27 @@ if [ -z "$PLURALSIGHT_RG_NAME" ] || [ -z "$CLUSTER_NAME" ]; then
   echo "Error: PLURALSIGHT_RG_NAME or CLUSTER_NAME is not set."
 fi
 
-echo "proceed"
+echo "proceed and connect"
 
-az aks get-credentials --resource-group "$PLURALSIGHT_RG_NAME" --name "$CLUSTER_NAME" --admin --overwrite-existing
+
 ```
 
 * set clustername
 
+    ```bash
+    CLUSTER_NAME=$(az aks list --resource-group $PLURALSIGHT_RG_NAME --query "[0].name" -o tsv)
+    ```
+
+* obtain kubeconfig
+
+    ```bash
+    az aks get-credentials --resource-group "$PLURALSIGHT_RG_NAME" --name "$CLUSTER_NAME" --admin --overwrite-existing
+    ```
+
+* use the variable to load the context
+
 ```bash
-CLUSTER_NAME=$(az aks list --resource-group $PLURALSIGHT_RG_NAME --query "[0].name" -o tsv)
+export KUBECONFIG=$HOME/.kube/config:~/config
 ```
 
 * Verify it worked
@@ -298,11 +310,6 @@ CLUSTER_NAME=$(az aks list --resource-group $PLURALSIGHT_RG_NAME --query "[0].na
 ```bash
 echo $CLUSTER_NAME
 ```
-
-### Outputs
-
-* Review the Pulumi stack output for cluster details and any exported values
-* get AKS cluster
 
 ```bash
 az aks list --query "[0].name" -o tsv
@@ -322,12 +329,24 @@ az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAM
 kubectl get nodes
 ```
 
-## AKS kubeconfig connection windows
+## AKS kubeconfig connection Windows
+
+* get aks cluster
+
+    ```powershell
+    $env:CLUSTER_NAME = (az aks list --query "[0].name")
+    ```
+
+* get kubeconfig credentials
 
 ```powershell
-$env:CLUSTER_NAME = (az aks list --query "[0].name")
-
 az aks get-credentials --resource-group $env:PLURALSIGHT_RG_NAME --name "$env:CLUSTER_NAME" --admin --overwrite-existing
+```
+
+* send the creds to WSL linux home
+
+```powershell
+Copy-Item -Path "$env:USERPROFILE\.kube\config" -Destination "\\wsl.localhost\Ubuntu\home\ale\config-date"
 ```
 
 ---
