@@ -220,13 +220,13 @@ az group list
 ```PowerShell
 
 pulumi config set azure-native:useDefaultAzureCredential false
-pulumi config set azure-native:subscriptionId "ADD ARM_SUBSCRIPTION_ID"
+pulumi config set azure-native:subscriptionId $env:ARM_SUBSCRIPTION_ID
 ```
 
 * Build and validate the project
 
 ```PowerShell
-./gradlew.bat clean build
+./gradlew.bat clean build :kubernetes-azure-spinnaker:build
 ```
 
 * Validate Pulumi config. 
