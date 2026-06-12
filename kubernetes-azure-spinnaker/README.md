@@ -324,9 +324,17 @@ kubectl get nodes
 
 ## AKS kubeconfig connection windows
 
+```powershell
+$env:CLUSTER_NAME = (az aks list --query "[0].name")
+
+az aks get-credentials --resource-group $env:PLURALSIGHT_RG_NAME --name "$env:CLUSTER_NAME" --admin --overwrite-existing
+```
+
 ---
 
 ### spinnaker validation
+
+* use kustomize to deploy
 
 * after deploying spinnaker with kustomize
 

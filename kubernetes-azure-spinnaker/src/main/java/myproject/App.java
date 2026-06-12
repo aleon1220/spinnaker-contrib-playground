@@ -18,7 +18,7 @@ public class App {
             var cluster = new ManagedCluster("aksCluster", ManagedClusterArgs.builder()
                     .resourceGroupName(resourceGroup)
                     .location(location)
-                    .dnsPrefix("aks-dns-prefix")
+                    .dnsPrefix("aks-dns-spinnaker")
                     .agentPoolProfiles(ManagedClusterAgentPoolProfileArgs.builder()
                             .name("agentpool")
                             .count(3)

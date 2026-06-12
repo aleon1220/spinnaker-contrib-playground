@@ -38,7 +38,7 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 * [ ] Integrate with GitHub Actions for CI
 * [ ] Explore Spinnaker Operator for Kubernetes
 * [ ] Add contributors and community guidelines
-* [] fetch the artifact and deploy the infrastructure from a cloud-shell
+* [ ] fetch the Fat Jar artifact and deploy the infrastructure from Azure cloud-shell
 
 ---
 
@@ -46,14 +46,13 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 
 ### create a temporary Azure sandbox
 
-1. https://app.pluralsight.com/hands-on/playground/cloud-sandboxes 
-2. open sandbox 
-3. use a browser with private or incognito mode
-4. you will get the following
-    - Username to access the azure portal
-    - Password to access the azure portal
-    - Application Client ID: to be used with the `az` cli
-    - Application Client Secret: to be used with the `az` cli for authentication
+1. open [pluralsight temp cloud sanboxes](https://app.pluralsight.com/hands-on/playground/cloud-sandboxes)
+2. use a browser with private or incognito mode
+3. you will get the following
+    * Username to access the azure portal
+    * Password to access the azure portal
+    * Application Client ID: to be used with the `az` cli
+    * Application Client Secret: to be used with the `az` cli for authentication
 
 ### connect azure CLI to azure sandbox subscription Linux
 
