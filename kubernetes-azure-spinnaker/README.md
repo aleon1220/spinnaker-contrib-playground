@@ -6,17 +6,6 @@ This template provisions:
 * AKS cluster CurrentKubernetesVersion `1.34.8`
 * Optionally use an existing Pluralsight sandbox resource group
 
-## Prerequisites
-
-* Azure account with credits
-* Pluralsight Hands-On Cloud Playground (optional)
-* Java 17 or higher installed
-* Gradle 9 or higher installed
-* Pulumi CLI installed and logged in
-* Azure CLI configured for your target subscription
-
-## Local execution on Linux
-
 using <https://www.mermaidflow.app/editor> i can see the icons
 
 ```mermaid
@@ -34,6 +23,17 @@ architecture-beta
     linux:R -- L:pulumi
     pulumi:R -- L:aks
 ```
+
+## Prerequisites
+
+* Azure account with credits
+* Pluralsight Hands-On Cloud Playground (optional)
+* Java 17 or higher installed
+* Gradle 9 or higher installed
+* Pulumi CLI installed and logged in
+* Azure CLI configured for your target subscription
+
+## Local execution on Linux 🐧💻⚙️
 
 * Install Pulumi
 
@@ -131,6 +131,8 @@ az aks approuting enable --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_N
 ```
 
 ---
+
+## Local execution on Windows 💻🚀
 
 ### Spinnaker running in AKS via Pulumi IaC Windows
 
