@@ -1,0 +1,6 @@
+# kustomization.yaml
+resources:
+  - spinnaker.yaml
+
+patches:
+  - path: ingress-patch.yaml
