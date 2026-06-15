@@ -3,7 +3,7 @@
 This template provisions:
 
 * Azure Resource Group
-* AKS cluster
+* AKS cluster CurrentKubernetesVersion `1.34.8`
 * Optionally use an existing Pluralsight sandbox resource group
 
 ## Prerequisites
@@ -14,84 +14,6 @@ This template provisions:
 * Gradle 9 or higher installed
 * Pulumi CLI installed and logged in
 * Azure CLI configured for your target subscription
-
-## Local execution using Azure Cloud Shell
-
-* Clone the repo
-
-```bash
-git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
-```
-
-* Change into the Pulumi project directory
-
-```bash
-pushd spinnaker-contrib-playground/kubernetes-azure-spinnaker
-```
-
-* Install SDKMAN to manage Java and Gradle
-
-```bash
-curl -s "https://get.sdkman.io" | bash
-```
-
-* Install JDK 25
-
-```bash
-SDK_MAN_JAVA_VERSION="25.0.3-ms"
-sdk install java $SDK_MAN_JAVA_VERSION
-```
-
-* Install Gradle
-
-```bash
-sdk install gradle
-```
-
-* Install Pulumi
-
-```bash
-curl -fsSL https://get.pulumi.com | sh
-```
-
-* Reload the shell after installation
-
-```bash
-bash
-```
-
-* Build the Java project
-
-```bash
-gradle clean build
-```
-
-* Set the target resource group name
-
-```bash
-export PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
-echo $PLURALSIGHT_RG_NAME
-```
-
-* Select the Pulumi stack
-
-```bash
-pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
-```
-
-* Configure Pulumi with the resource group
-
-```bash
-pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
-```
-
-* Deploy the AKS cluster
-
-```bash
-pulumi up
-```
-
----
 
 ## Local execution on Linux
 
@@ -197,21 +119,18 @@ pulumi up
 tree -L 2
 ```
 
----
+* enable AKS add-on for ingress
 
-### Azure authentication and setup
-
-* Verify Azure CLI service principal authentication
+do this after authenticating
 
 ```bash
-export APP_ID="$ARM_CLIENT_ID"
-export CLIENT_SECRET="$ARM_CLIENT_SECRET"
-export TENANT_ID="$ARM_TENANT_ID"
 
-az login --service-principal --username $APP_ID --password $CLIENT_SECRET --tenant $TENANT_ID
-az account set --subscription $ARM_SUBSCRIPTION_ID
-az group list
+CLUSTER_NAME=$(az aks list --query "[0].name")
+
+az aks approuting enable --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME
 ```
+
+---
 
 ### Spinnaker running in AKS via Pulumi IaC Windows
 
@@ -284,7 +203,6 @@ fi
 
 echo "proceed and connect"
 
-
 ```
 
 * set clustername
@@ -315,21 +233,21 @@ echo $CLUSTER_NAME
 az aks list --query "[0].name" -o tsv
 ```
 
-### Connect to the AKS cluster
+### Connect to the AKS cluster from linux
 
 * Set kubectl credentials
 
-```bash
-az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME --admin
-```
+    ```bash
+    az aks get-credentials --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_NAME --admin
+    ```
 
 * Verify cluster nodes
 
-```bash
-kubectl get nodes
-```
+    ```bash
+    kubectl get nodes
+    ```
 
-## AKS kubeconfig connection Windows
+## AKS kubeconfig connection from Windows powershell
 
 * get aks cluster
 
@@ -339,21 +257,21 @@ kubectl get nodes
 
 * get kubeconfig credentials
 
-```powershell
-az aks get-credentials --resource-group $env:PLURALSIGHT_RG_NAME --name "$env:CLUSTER_NAME" --admin --overwrite-existing
-```
+    ```powershell
+    az aks get-credentials --resource-group $env:PLURALSIGHT_RG_NAME --name "$env:CLUSTER_NAME" --admin --overwrite-existing
+    ```
 
 * send the creds to WSL linux home
 
-```powershell
-Copy-Item -Path "$env:USERPROFILE\.kube\config" -Destination "\\wsl.localhost\Ubuntu\home\ale\config-date"
-```
+    ```powershell
+    Copy-Item -Path "$env:USERPROFILE\.kube\config" -Destination "\\wsl.localhost\Ubuntu\home\ale\config-date"
+    ```
 
 ---
 
 ### spinnaker validation
 
-* use kustomize to deploy
+* use kustomize to deploy <https://github.com/spinnaker/spinnaker/tree/main/spinnaker-kustomize>
 
 * after deploying spinnaker with kustomize
 
@@ -379,13 +297,13 @@ kubectl get ingress -n spinnaker
 * Join the [Pulumi Community Slack](https://slack.pulumi.com/)
 * File an issue in this repository
 
-## Spinnaker installation
+### effort 2026-02-04
+
+* installed with `hal`
 
 > it seems spinnaker is hard to install. Halyard is deprecated
 
 * [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
-
-### effort 2026-02-04
 
 ```bash
 Halyard version will be 1.70.0 
@@ -399,6 +317,102 @@ Halyard version: 2025.4.1
 
 * Configure your cloud provider account (Azure, AWS, GCP)
 * Apply sample pipeline manifests from `/pipelines`
+
+## Azure CLI authentication notes
+
+the most up to date guide is in the main readme
+
+### Azure CLI commands authentication and setup
+
+* Verify Azure CLI service principal authentication
+
+```bash
+export APP_ID="$ARM_CLIENT_ID"
+export CLIENT_SECRET="$ARM_CLIENT_SECRET"
+export TENANT_ID="$ARM_TENANT_ID"
+
+az login --service-principal --username $APP_ID --password $CLIENT_SECRET --tenant $TENANT_ID
+az account set --subscription $ARM_SUBSCRIPTION_ID
+az group list
+```
+
+## Local execution using Azure Cloud Shell
+
+* Clone the repo
+
+```bash
+git clone https://github.com/aleon1220/spinnaker-contrib-playground.git
+```
+
+* Change into the Pulumi project directory
+
+```bash
+pushd spinnaker-contrib-playground/kubernetes-azure-spinnaker
+```
+
+* Install SDKMAN to manage Java and Gradle
+
+```bash
+curl -s "https://get.sdkman.io" | bash
+```
+
+* Install JDK 25
+
+```bash
+SDK_MAN_JAVA_VERSION="25.0.3-ms"
+sdk install java $SDK_MAN_JAVA_VERSION
+```
+
+* Install Gradle
+
+```bash
+sdk install gradle
+```
+
+* Install Pulumi
+
+```bash
+curl -fsSL https://get.pulumi.com | sh
+```
+
+* Reload the shell after installation
+
+```bash
+bash
+```
+
+* Build the Java project
+
+```bash
+gradle clean build
+```
+
+* Set the target resource group name
+
+```bash
+export PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
+echo $PLURALSIGHT_RG_NAME
+```
+
+* Select the Pulumi stack
+
+```bash
+pulumi stack select aleon1220/kubernetes-azure-spinnaker/cloudshell-aks-spinnaker
+```
+
+* Configure Pulumi with the resource group
+
+```bash
+pulumi config set resourceGroupName $PLURALSIGHT_RG_NAME
+```
+
+* Deploy the AKS cluster
+
+```bash
+pulumi up
+```
+
+---
 
 ## References
 
