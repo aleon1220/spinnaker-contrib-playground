@@ -57,19 +57,20 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 
 ### connect azure CLI to azure sandbox subscription Linux
 
-```bash
-DOMAIN_TENANT="realhandsonlabs.com"
-export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
-echo $ARM_TENANT_ID
-```
+* obtain the tenant ID: for PluralSight this is their official and they have the sandbox subscriptions
+
+   ```bash
+   DOMAIN_TENANT="realhandsonlabs.com"
+   export ARM_TENANT_ID=$(curl -s https://login.microsoftonline.com/${DOMAIN_TENANT}/.well-known/openid-configuration | grep -o 'https://sts.windows.net/[^/]*' | cut -d '/' -f 4)
+   echo $ARM_TENANT_ID
+   ```
 
 * Set required service principal environment variables
-
-```bash
-export ARM_CLIENT_ID="<YOUR_APPLICATION_CLIENT_ID>"
-export ARM_CLIENT_SECRET="<YOUR_SECRET>"
-export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-```
+   
+   ```bash
+   export ARM_CLIENT_ID=$(op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Application Client ID")
+   export ARM_CLIENT_SECRET=$(op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Secret")
+   ```
 
 * Login with Azure CLI using service principal
 
@@ -77,78 +78,82 @@ export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
     az login --service-principal --username $ARM_CLIENT_ID --password $ARM_CLIENT_SECRET --tenant $ARM_TENANT_ID
     ```
 
-* login to [azure portal](https://portal.azure.com/) 
+* once you are connected get the subscription id.
 
-* open a cloud shell bash
+> PluralSight only allows you to use a single rg
 
-* obtain the tenant ID
-
-    ```bash
-    export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
-    ```
+   ```bash
+   export ARM_SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+   ```
 
 * set resource group
 
-```bash
-PLURALSIGHT_RG_NAME=$(az group list --query "[?location=='westus']" | jq -r '.[0].name')
-echo $PLURALSIGHT_RG_NAME
-```
+   ```bash
+   PLURALSIGHT_RG_NAME=$(az group list --query "[0].name" --output tsv)
+   echo $PLURALSIGHT_RG_NAME
+   ```
 
+* get resource group and filter
+
+   ```bash
+   az group list --query "[?location=='westus']" | jq -r '.[0].name'
+   ```
 ### connect azure CLI to azure sandbox subscription Windows 🚀
 
 * Set Required Service Principal Environment Variables
 
 PowerShell handles session-based environment variables using the $env: scope.
 
-```PowerShell
-$env:ARM_CLIENT_ID     = op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Application Client ID"
-$env:ARM_CLIENT_SECRET = "<YOUR_SECRET>"
-```
+   ```PowerShell
+   $env:ARM_CLIENT_ID     = op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Application Client ID"
+   $env:ARM_CLIENT_SECRET = op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Secret" # or "<YOUR_SECRET>"
+   ```
 
 * login to portal.azure.com and obtain the Tenant ID from a cloudshell powershell
 
-```PowerShell
-az account show --output Table
-```
+   ```PowerShell
+   az account show --output Table
+   ```
 
 * obtain the TenantId from a table output and set it to an env variable
-```PowerShell
-$env:ARM_TENANT_ID = "value from portal.azure"
-```
+
+   ```PowerShell
+   $env:ARM_TENANT_ID = "value from portal.azure"
+   ```
 
 * Login with Azure CLI using the Service Principal
 Because we used $env:, these variables are seamlessly passed to the az executable.
 
-```PowerShell
-az login --service-principal --username $env:ARM_CLIENT_ID --password $env:ARM_CLIENT_SECRET --tenant $env:ARM_TENANT_ID
-```
+   ```PowerShell
+   az login --service-principal --username $env:ARM_CLIENT_ID --password $env:ARM_CLIENT_SECRET --tenant $env:ARM_TENANT_ID
+   ```
 
 * Using Azure CLI's built-in TSV output directly into the variable. Name is usually P9-Real Hands-On Labs
 
-```PowerShell
-$env:ARM_SUBSCRIPTION_ID = az account show --query id -o tsv
-```
+   ```PowerShell
+   $env:ARM_SUBSCRIPTION_ID = az account show --query id -o tsv
+   ```
 
 * Set the Resource Group without jq
 
 let Azure CLI output standard JSON, convert it into a PowerShell object, filter it, and access the exact property we need—no third-party parsers required.
 
-```PowerShell
-# Option A: The PowerShell Object Way (Clean Architecture)
-$ResourceGroups = az group list --output json | ConvertFrom-Json
-
-# Option B: The Frugal JMESPath Way (Leveraging Azure CLI natively)
-
-$PluralsightRgName = az group list --query "[0].name" --output tsv
-
-Write-Output "Selected azure Resource Group: $PluralsightRgName"
-```
+   ```PowerShell
+   # Option A: The PowerShell Object Way (Clean Architecture)
+   $ResourceGroups = az group list --output json | ConvertFrom-Json
+   
+   # Option B: The Frugal JMESPath Way (Leveraging Azure CLI natively)
+   
+   $PluralsightRgName = az group list --query "[0].name" --output tsv
+   
+   Write-Output "Selected azure Resource Group: $PluralsightRgName"
+   ```
 
 * Retrieve the Tenant ID via OpenID Configuration
 
-```PowerShell
-$DomainTenant = "realhandsonlabs.com"
-```
+   ```PowerShell
+   $DomainTenant = "realhandsonlabs.com"
+   ```
 
 * Invoke-RestMethod natively parses the JSON response into an object
 
@@ -163,6 +168,18 @@ $env:ARM_TENANT_ID = ($OpenIdConfig.issuer -split '/')[3]
 
 Write-Output "Retrieved Tenant ID: $env:ARM_TENANT_ID"
 ```
+
+#### obtain tenant ID from Azure Portal
+
+* login to [azure portal](https://portal.azure.com/) 
+
+* open a cloud shell bash
+
+* obtain the tenant ID
+
+    ```bash
+    export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
+    ```
 
 ---
 
