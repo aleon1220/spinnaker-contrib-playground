@@ -2,6 +2,7 @@ package myproject;
 
 import com.pulumi.Pulumi;
 
+// https://www.pulumi.com/registry/packages/azure-native/api-docs/containerservice/managedcluster/
 import com.pulumi.azurenative.containerservice.ManagedCluster;
 import com.pulumi.azurenative.containerservice.ManagedClusterArgs;
 import com.pulumi.azurenative.containerservice.inputs.ManagedClusterAgentPoolProfileArgs;
