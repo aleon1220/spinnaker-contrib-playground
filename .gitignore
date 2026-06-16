@@ -365,3 +365,6 @@ build
 
 # Ignore Kotlin plugin data
 .kotlin
+
+# environment variables
+.env
