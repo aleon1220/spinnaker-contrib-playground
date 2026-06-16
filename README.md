@@ -66,7 +66,7 @@ should be as simple and intuitive as possible. A gradle project with subprojects
    ```
 
 * Set required service principal environment variables
-   
+
    ```bash
    export ARM_CLIENT_ID=$(op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Application Client ID")
    export ARM_CLIENT_SECRET=$(op read "op://Pro-IT Projects/azure pluralsight temp sandbox/Azure Sandbox programatic Access/Secret")
@@ -98,6 +98,7 @@ should be as simple and intuitive as possible. A gradle project with subprojects
    ```bash
    az group list --query "[?location=='westus']" | jq -r '.[0].name'
    ```
+
 ### connect azure CLI to azure sandbox subscription Windows 🚀
 
 * Set Required Service Principal Environment Variables
@@ -167,6 +168,29 @@ $OpenIdConfig = Invoke-RestMethod -Uri "https://login.microsoftonline.com/$Domai
 $env:ARM_TENANT_ID = ($OpenIdConfig.issuer -split '/')[3]
 
 Write-Output "Retrieved Tenant ID: $env:ARM_TENANT_ID"
+```
+
+### validate Azure authentication
+
+* Validate the account
+
+```bash
+az account list --output table
+az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
+
+az account show | jq
+```
+
+* validate resource group
+
+```bash
+az group list
+```
+
+* check rg in specific location
+
+```bash
+az group list --query "[?location=='westus']"
 ```
 
 #### obtain tenant ID from Azure Portal

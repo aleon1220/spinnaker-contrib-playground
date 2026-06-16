@@ -136,63 +136,50 @@ az aks approuting enable --resource-group $PLURALSIGHT_RG_NAME --name $CLUSTER_N
 
 ### Spinnaker running in AKS via Pulumi IaC Windows
 
-* prepare for deploying the stack
+* from `root project` -> Build and validate the project
 
-```PowerShell
+    ```PowerShell
+    ./gradlew.bat clean build :kubernetes-azure-spinnaker:build
+    ```
 
-pulumi config set azure-native:useDefaultAzureCredential false
-pulumi config set azure-native:subscriptionId $env:ARM_SUBSCRIPTION_ID
-```
+* working directory
 
-* from root project -> Build and validate the project
+    ```PowerShell
+    $env:PULUMI_WOK_DIR = "kubernetes-azure-spinnaker"
+    cd $env:PULUMI_WOK_DIR
+    ```
 
-```PowerShell
-./gradlew.bat clean build :kubernetes-azure-spinnaker:build
-```
-
-* from `kubernetes-azure-spinnaker` Validate Pulumi config
-
+* from `kubernetes-azure-spinnaker` Validate Pulumi config.
 pulumi will ask you to authenticate and select or create a stack
 
-```PowerShell
-pulumi config
-```
+    ```PowerShell
+    pulumi config
+    ```
+
+* prepare for deploying the stack by selecting the target azure subscription
+
+    ```PowerShell
+    pulumi config set azure-native:subscriptionId $env:ARM_SUBSCRIPTION_ID
+    ```
+
+* disable default credential if using temp cloud sandboxes
+
+    ```PowerShell
+    pulumi config set azure-native:useDefaultAzureCredential false
+    ```
 
 * Set the Pulumi resource group name provided by Pluralsight Azure Sandbox
 
-```PowerShell
-$env:PLURALSIGHT_RG_NAME = (az group list --query "[0].name" --output tsv)
-pulumi config set resourceGroupName $env:PLURALSIGHT_RG_NAME
-```
+    ```PowerShell
+    $env:PLURALSIGHT_RG_NAME = (az group list --query "[0].name" --output tsv)
+    pulumi config set resourceGroupName $env:PLURALSIGHT_RG_NAME
+    ```
 
 * Deploy the stack
 
     ```PowerShell
     pulumi up
     ```
-
-### Azure validation
-
-* Validate the account
-
-```bash
-az account list --output table
-az account list --query '[].{subscriptionName:name,subscriptionId:id}' -o tsv
-
-az account show | jq
-```
-
-* validate resource group
-
-```bash
-az group list
-```
-
-* check rg in specific location
-
-```bash
-az group list --query "[?location=='westus']"
-```
 
 ## Robust AKS kubeconfig connection linux
 
@@ -299,7 +286,21 @@ kubectl get ingress -n spinnaker
 * Join the [Pulumi Community Slack](https://slack.pulumi.com/)
 * File an issue in this repository
 
-### effort 2026-02-04
+### effort logs
+
+#### 2026-06-16
+
+* adding the AKS Add On ingress
+
+```powershell
+This change enables the Web Application Routing add-on (`ingressProfile.webAppRouting.enabled: true`) on the existing AKS cluster. This is a managed ingress controller (NGINX-based) that Azure provisions as a cluster add-on, allowing HTTP/HTTPS routing to be configured via Kubernetes Ingress resources.
+
+The update is in-place — no replacement is triggered. Enabling this add-on will deploy additional system components into the cluster (typically in the `app-routing-system` namespace), which is a non-destructive operation.
+
+🔵 Info — Enabling Web Application Routing introduces a new managed NGINX ingress controller and may provision an associated Azure DNS Zone or attach to an existing one depending on cluster configuration. Verify no existing ingress controller (e.g., a manually installed NGINX or Traefik) conflicts with the new add-on, as port contention on 80/443 could disrupt existing ingress traffic.
+```
+
+#### 2026-02-04
 
 * installed with `hal`
 
@@ -319,6 +320,8 @@ Halyard version: 2025.4.1
 
 * Configure your cloud provider account (Azure, AWS, GCP)
 * Apply sample pipeline manifests from `/pipelines`
+
+---
 
 ## Azure CLI authentication notes
 

@@ -9,6 +9,9 @@ import com.pulumi.azurenative.containerservice.inputs.ManagedClusterAgentPoolPro
 import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIdentityArgs;
 import com.pulumi.azurenative.containerservice.enums.ResourceIdentityType;
 
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIngressProfileArgs;
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIngressProfileWebAppRoutingArgs;
+
 public class App {
     public static void main(String[] args) {
         Pulumi.run(ctx -> {
@@ -28,6 +31,12 @@ public class App {
                             .build())
                     .identity(ManagedClusterIdentityArgs.builder()
                             .type(ResourceIdentityType.SystemAssigned)
+                            .build())
+                    // Enable the Application Routing Add-on (Managed NGINX)
+                    .ingressProfile(ManagedClusterIngressProfileArgs.builder()
+                            .webAppRouting(ManagedClusterIngressProfileWebAppRoutingArgs.builder()
+                                    .enabled(true)
+                                    .build())
                             .build())
                     .build());
 
