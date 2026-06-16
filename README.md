@@ -56,7 +56,7 @@ should be as simple and intuitive as possible. A gradle project with subprojects
     * Application Client Secret: to be used with the `az` cli for authentication
 
 ### connect azure CLI to azure sandbox subscription Linux
-
+* pre-requisites : azure account and authentication <>
 * obtain the tenant ID: for PluralSight this is their official and they have the sandbox subscriptions
 
    ```bash

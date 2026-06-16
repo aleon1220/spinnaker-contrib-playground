@@ -266,15 +266,21 @@ az aks list --query "[0].name" -o tsv
 
 * watch pods in the spinnaker namespace
 
-```bash
-watch kubectl get pods -n spinnaker
-```
+    ```bash
+    watch kubectl get pods -n spinnaker
+    ```
+
+* bridge the azure addon with the K8s ingress
+
+    ```bash
+    kubectl apply -k .
+    ```
 
 * get ingress address
 
-```bash
-kubectl get ingress -n spinnaker
-```
+    ```bash
+    kubectl get ingress -n spinnaker
+    ```
 
 * update `/etc/hosts`
 
