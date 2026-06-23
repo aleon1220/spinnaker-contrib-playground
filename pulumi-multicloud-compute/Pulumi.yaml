@@ -1,0 +1,3 @@
+name: multicloud-compute
+runtime: java
+description: A minimal Pulumi Java project to provision AWS, Azure, and GCP compute instances.
