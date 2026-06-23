@@ -11,10 +11,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.pulumi:pulumi:1.0.0")
-    implementation("com.pulumi:aws:6.66.0")
-    implementation("com.pulumi:azure-native:2.82.0")
-    implementation("com.pulumi:gcp:8.12.0")
+    implementation(libs.pulumiJava)
+    implementation(libs.awsProvider)
+    implementation(libs.azureNative)
+    implementation(libs.gcpProvider)
 }
 
 application {
