@@ -14,17 +14,23 @@ public class App {
         var projectName = config.require("projectName");
         var environment = config.require("environment");
         var sshPublicKey = config.require("sshPublicKey");
+        
+        // Defaults to "all" clouds if not specified
+        var targetCloud = config.get("targetCloud").orElse("all").toLowerCase();
 
-        // AWS
-        Output<String> awsIp = AwsInfra.build(projectName, environment, sshPublicKey);
-        ctx.export("AwsPublicIp", awsIp);
+        if (targetCloud.equals("all") || targetCloud.equals("aws")) {
+            Output<String> awsIp = AwsInfra.build(projectName, environment, sshPublicKey);
+            ctx.export("AwsPublicIp", awsIp);
+        }
 
-        // Azure
-        Output<String> azureIp = AzureInfra.build(projectName, environment, sshPublicKey);
-        ctx.export("AzurePublicIp", azureIp);
+        if (targetCloud.equals("all") || targetCloud.equals("azure")) {
+            Output<String> azureIp = AzureInfra.build(projectName, environment, sshPublicKey);
+            ctx.export("AzurePublicIp", azureIp);
+        }
 
-        // GCP
-        Output<String> gcpIp = GcpInfra.build(projectName, environment, sshPublicKey);
-        ctx.export("GcpPublicIp", gcpIp);
+        if (targetCloud.equals("all") || targetCloud.equals("gcp")) {
+            Output<String> gcpIp = GcpInfra.build(projectName, environment, sshPublicKey);
+            ctx.export("GcpPublicIp", gcpIp);
+        }
     }
 }

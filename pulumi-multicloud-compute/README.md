@@ -56,6 +56,12 @@ pulumi config set --path 'gcp:project' your-gcp-project-id
 pulumi config set sshPublicKey "ssh-rsa YOUR_PUBLIC_KEY..."
 ```
 
+By default, the project will deploy instances to all three clouds. You can restrict the deployment to a single cloud by setting the `targetCloud` configuration variable:
+```bash
+# Options: all (default), aws, azure, gcp
+pulumi config set targetCloud aws
+```
+
 3. Run the deployment:
 ```bash
 pulumi up
