@@ -1,0 +1,8 @@
+# ingress-patch.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spinnaker-ingress # Make sure this matches the exact name of your ingress
+  namespace: spinnaker    # Make sure this matches your Spinnaker namespace
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com

@@ -1,0 +1,4 @@
+config:
+  azure-native:useDefaultAzureCredential: "false"
+  kubernetes-azure-spinnaker:resourceGroupName: 1-c4fdad95-playground-sandbox
+  azure-native:subscriptionId: 9734ed68-621d-47ed-babd-269110dbacb1

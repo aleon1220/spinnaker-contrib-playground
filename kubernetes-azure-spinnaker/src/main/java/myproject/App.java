@@ -2,11 +2,15 @@ package myproject;
 
 import com.pulumi.Pulumi;
 
+// https://www.pulumi.com/registry/packages/azure-native/api-docs/containerservice/managedcluster/
 import com.pulumi.azurenative.containerservice.ManagedCluster;
 import com.pulumi.azurenative.containerservice.ManagedClusterArgs;
 import com.pulumi.azurenative.containerservice.inputs.ManagedClusterAgentPoolProfileArgs;
 import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIdentityArgs;
 import com.pulumi.azurenative.containerservice.enums.ResourceIdentityType;
+
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIngressProfileArgs;
+import com.pulumi.azurenative.containerservice.inputs.ManagedClusterIngressProfileWebAppRoutingArgs;
 
 public class App {
     public static void main(String[] args) {
@@ -18,7 +22,7 @@ public class App {
             var cluster = new ManagedCluster("aksCluster", ManagedClusterArgs.builder()
                     .resourceGroupName(resourceGroup)
                     .location(location)
-                    .dnsPrefix("aks-dns-prefix")
+                    .dnsPrefix("aks-dns-spinnaker")
                     .agentPoolProfiles(ManagedClusterAgentPoolProfileArgs.builder()
                             .name("agentpool")
                             .count(3)
@@ -27,6 +31,12 @@ public class App {
                             .build())
                     .identity(ManagedClusterIdentityArgs.builder()
                             .type(ResourceIdentityType.SystemAssigned)
+                            .build())
+                    // Enable the Application Routing Add-on (Managed NGINX)
+                    .ingressProfile(ManagedClusterIngressProfileArgs.builder()
+                            .webAppRouting(ManagedClusterIngressProfileWebAppRoutingArgs.builder()
+                                    .enabled(true)
+                                    .build())
                             .build())
                     .build());
 

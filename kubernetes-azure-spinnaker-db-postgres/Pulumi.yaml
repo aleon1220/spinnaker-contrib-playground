@@ -1,0 +1,3 @@
+name: kubernetes-azure-spinnaker-db
+runtime: java
+description: "Pulumi Java project to provision Spinnaker backend PostgreSQL and Redis resources on Azure."
