@@ -79,24 +79,7 @@ pulumi up
 
 ## Spinnaker installation
 
-> it seems spinnaker is hard to install
-
-* [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
-
-### effort 2026-02-04
-
-```bash
-Halyard version will be 1.70.0 
-Halyard will be downloaded from the spinnaker-community repository 
-Halconfig will be stored at /home/spinnaker/.hal/config
-Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
-
-# lots of install output
-Halyard version: 2025.4.1
-```
-
-* Configure your cloud provider account (Azure, AWS, GCP)
-* Apply sample pipeline manifests from `/pipelines`
+* follow [install docs](https://spinnaker.io/docs/setup/install/)
 
 ### 🤝 Contributing
 
@@ -163,5 +146,23 @@ pulumi config set azure-native:location <your-region>
 
 ## Notes
 
-
 2025 experimenting with pulumi and Azure AKS
+
+> it seems spinnaker is hard to install
+
+* [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
+
+### effort 2026-02-04
+
+```bash
+Halyard version will be 1.70.0 
+Halyard will be downloaded from the spinnaker-community repository 
+Halconfig will be stored at /home/spinnaker/.hal/config
+Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
+
+# lots of install output
+Halyard version: 2025.4.1
+```
+
+* Configure your cloud provider account (Azure, AWS, GCP)
+* Apply sample pipeline manifests from `/pipelines`
