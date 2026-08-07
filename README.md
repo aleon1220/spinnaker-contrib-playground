@@ -6,8 +6,6 @@ This repository is a community-driven playground for exploring Continuous Delive
 
 the purpose is to repeatably install Spinnaker so many times that it gets more and more excellence and simplicity.
 
-2025 experimenting with pulumi and Azure AKS
-
 ---
 
 ### 🧭 Roadmap
@@ -103,19 +101,16 @@ Halyard version: 2025.4.1
 ### 🤝 Contributing
 
 Contributions are welcome!
-If you’d like to:
+If you’d like to contribute sugest is to use **Contribution guidelines**:
 
 * Add new pipeline templates
 * Improve IaC examples
 * Document deployment scenarios
-
-Please open a **pull request** or start a **discussion** in the repo.
-
-**Contribution guidelines**:
-
 * Use clear commit messages
 * Include minimal reproducible examples
 * Document any required credentials or secrets (but never include secrets directly!)
+
+Please open a **pull request** or start a **discussion** in the repo.
 
 ---
 
@@ -164,3 +159,9 @@ To override the default location, run:
 ```bash
 pulumi config set azure-native:location <your-region>
 ```
+
+
+## Notes
+
+
+2025 experimenting with pulumi and Azure AKS
