@@ -27,38 +27,76 @@ az account set --subscription="<YOUR_SUBSCRIPTION_ID>"
 ```
 
 ### GCP
-```bash
-gcloud auth application-default login
-gcloud config set project <YOUR_PROJECT_ID>
-```
+
+* login authenticate to GCP
+
+    ```bash
+    gcloud auth application-default login
+    ```
+
+* set GCP project
+
+    ```bash
+    gcloud config set project <YOUR_PROJECT_ID>
+    ```
 
 ## Build
 
-Since this is part of a larger Gradle workspace, you can build the project from this directory:
-```bash
-../gradlew build
-```
-Or from the parent directory:
-```bash
-./gradlew :pulumi-multicloud-compute:build
-```
+Since this is part of a larger Gradle workspace, you can 
+
+* build the project from this directory:
+
+    ```bash
+    ./gradlew build
+    ```
+
+* build from the parent directory:
+
+    ```bash
+    ./gradlew :pulumi-multicloud-compute:build
+    ```
 
 ## Deploy
 
-1. Initialize a new Pulumi stack (e.g., `dev`):
-```bash
-pulumi stack init dev
-```
+
+
+1. go to the project
+
+    ```bash
+    pushd pulumi-multicloud-compute/
+    ```
+
+2. Initialize a new Pulumi stack (e.g., `dev`):
+
+    ```bash
+    pulumi stack init dev
+    ```
 
 2. Review the `Pulumi.dev.yaml` and set your configuration variables if needed. Note that a sample SSH key is provided but should be replaced with your own public key:
-```bash
-pulumi config set --path 'gcp:project' your-gcp-project-id
-pulumi config set sshPublicKey "ssh-rsa YOUR_PUBLIC_KEY..."
-```
+
+* set the project ID
+
+    ```bash
+    pulumi config set --path 'gcp:project' your-gcp-project-id
+    ```
+
+* get the public key from the default location
+
+    ```bash
+    cat ~/.ssh/id_rsa.pub | xclip
+    ```
+
+* set the public SSH key
+
+    ```bash
+    pulumi config set sshPublicKey "ssh-rsa SSH_PUBLIC_KEY..."
+    ```
 
 By default, the project will deploy instances to all three clouds. You can restrict the deployment to a single cloud by setting the `targetCloud` configuration variable:
+
+* set one of the Options: all (default), aws, azure, gcp
+
 ```bash
-# Options: all (default), aws, azure, gcp
 pulumi config set targetCloud aws
 ```
 
@@ -66,7 +104,12 @@ pulumi config set targetCloud aws
 ```bash
 pulumi up
 ```
-This will preview the infrastructure changes and prompt for confirmation before provisioning the resources. The outputs will display the public IP addresses for the AWS, Azure, and GCP instances.
+
+This will preview the infrastructure changes and prompt for confirmation before provisioning the resources. The outputs will display the public IP addresses for the VM in either
+
+1. AWS
+2. Azure
+3. GCP instances.
 
 ## Migration Notes
 
