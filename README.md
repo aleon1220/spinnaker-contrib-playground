@@ -6,8 +6,6 @@ This repository is a community-driven playground for exploring Continuous Delive
 
 the purpose is to repeatably install Spinnaker so many times that it gets more and more excellence and simplicity.
 
-2025 experimenting with pulumi and Azure AKS
-
 ---
 
 ### 🚀 Purpose
@@ -42,6 +40,25 @@ should be as simple and intuitive as possible. A gradle project with subprojects
 * [ ] document cleaning of pulumi stacks
 
 ---
+
+* follow [install docs](https://spinnaker.io/docs/setup/install/)
+
+### 🤝 Contributing
+
+Contributions are welcome!
+If you’d like to contribute sugest is to use **Contribution guidelines**:
+
+* Add new pipeline templates
+* Improve IaC examples
+* Document deployment scenarios
+* Use clear commit messages
+* Include minimal reproducible examples
+* Document any required credentials or secrets (but never include secrets directly!)
+
+Please open a **pull request** or start a **discussion** in the repo.
+
+---
+
 
 ## Plural sight Azure Cloud execution
 
@@ -193,39 +210,6 @@ az group list
 az group list --query "[?location=='westus']"
 ```
 
-#### obtain tenant ID from Azure Portal
-
-* login to [azure portal](https://portal.azure.com/) 
-
-* open a cloud shell bash
-
-* obtain the tenant ID
-
-    ```bash
-    export ARM_TENANT_ID=$(az account show --query tenantId -o tsv)
-    ```
-
----
-
-### 🤝 Contributing
-
-Contributions are welcome!
-If you’d like to:
-
-* Add new pipeline templates
-* Improve IaC examples
-* Document deployment scenarios
-
-Please open a **pull request** or start a **discussion** in the repo.
-
-**Contribution guidelines**:
-
-* Use clear commit messages
-* Include minimal reproducible examples
-* Document any required credentials or secrets (but never include secrets directly!)
-
----
-
 ### 📚 Learning Resources
 
 * [Spinnaker Official Docs](https://spinnaker.io/docs/)
@@ -271,3 +255,26 @@ To override the default location, run:
 ```bash
 pulumi config set azure-native:location <your-region>
 ```
+
+## Notes
+
+2025 experimenting with pulumi and Azure AKS
+
+> it seems spinnaker is hard to install
+
+* [Install Halyard](https://spinnaker.io/docs/setup/install/halyard/)
+
+### effort 2026-02-04
+
+```bash
+Halyard version will be 1.70.0 
+Halyard will be downloaded from the spinnaker-community repository 
+Halconfig will be stored at /home/spinnaker/.hal/config
+Uninstall script is located at /usr/local/bin/uninstall-halyard.sh
+
+# lots of install output
+Halyard version: 2025.4.1
+```
+
+* Configure your cloud provider account (Azure, AWS, GCP)
+* Apply sample pipeline manifests from `/pipelines`
