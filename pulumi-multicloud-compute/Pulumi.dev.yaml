@@ -1,0 +1,11 @@
+config:
+  aws:region: us-east-1
+  azure-native:location: eastus
+  gcp:project: your-gcp-project-id
+  gcp:region: us-central1
+  gcp:zone: us-central1-a
+  # Generic config
+  multicloud-compute:projectName: devpoc
+  multicloud-compute:environment: dev
+  multicloud-compute:targetCloud: all # options: aws, azure, gcp, all
+  multicloud-compute:sshPublicKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4THm+31GVAU4m5UJLo8MWvDitmVH2JwUp7PbZ2a2jjQE28JrB2yLVV2J3sGy+cyH3XmDSOTtxY6kcqs4NMWzjY+s1hq8sWYx3EhROoNbC2anQwMUHipd66rL2vQO3kTamy8VIbIiy+Amk/PSZ/D6N2p5SqPdKmS8K39IkLxVSTJykY9ZlR6RJ35T7vl8hS4h/Aoj8ylkH2alH/aG/w77TgUO3pgINkElMCkkRRH8qlBacKSPls3aoqML2TOOuVmnWn61VXhgFAonubZ0sL0ZdOzCnhGNyAhUwKe3a/l6gqSNohH7hkZJH3nBwjSGvCnIWGm1lyZJXoq2g/StN9tpr ubuntuLaptop"

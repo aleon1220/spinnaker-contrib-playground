@@ -36,3 +36,68 @@ versionCatalogUpdate {
     !(it.candidate.version.contains("SNAPSHOT") || it.candidate.version.contains("ALPHA"))
   }
 }
+
+// Determine the OS to use the correct executable
+val isWindows = System.getProperty("os.name").lowercase().contains("windows")
+val azCommand = if (isWindows) "az.cmd" else "az"
+
+// ============================================================================
+// TASK: Azure Authentication & Subscription Targeting
+// ============================================================================
+
+// 1. Define a custom task class that injects the modern ExecOperations service
+abstract class AzureLoginTask @Inject constructor(private val execOps: ExecOperations) :
+  DefaultTask() {
+
+  init {
+    group = "Spinnaker Infrastructure"
+    description = "Authenticates with Azure CLI and sets the active subscription."
+  }
+
+  @TaskAction
+  fun authenticate() {
+    println("Starting Azure CLI authentication process...")
+
+    // Determine OS inside the task execution to safely support Configuration Cache
+    val isWindows = System.getProperty("os.name").lowercase().contains("windows")
+    val azCommand = if (isWindows) "az.cmd" else "az"
+
+    // Fetch standard environment variables (Injected via 1Password 'op run')
+    val clientId =
+      System.getenv("ARM_CLIENT_ID") ?: throw GradleException("ARM_CLIENT_ID is missing.")
+    val clientSecret =
+      System.getenv("ARM_CLIENT_SECRET") ?: throw GradleException("ARM_CLIENT_SECRET is missing.")
+    val tenantId =
+      System.getenv("ARM_TENANT_ID") ?: throw GradleException("ARM_TENANT_ID is missing.")
+
+    // Fetch the Subscription ID
+    val subscriptionId =
+      System.getenv("ARM_SUBSCRIPTION_ID")
+        ?: System.getenv("SUBSCRIPTION_ID")
+        ?: throw GradleException("ARM_SUBSCRIPTION_ID is missing.")
+
+    // Step 1: Log in with the Service Principal using ExecOperations
+    execOps.exec {
+      commandLine(
+        azCommand,
+        "login",
+        "--service-principal",
+        "-u",
+        clientId,
+        "-p",
+        clientSecret,
+        "--tenant",
+        tenantId,
+      )
+    }
+
+    // Step 2: Explicitly set the active subscription context
+    println("Setting active Azure subscription to: $subscriptionId")
+    execOps.exec { commandLine(azCommand, "account", "set", "--subscription", subscriptionId) }
+
+    println("Azure authentication and context setup complete.")
+  }
+}
+
+// 2. Register the task using your custom class
+tasks.register<AzureLoginTask>("azureLogin")

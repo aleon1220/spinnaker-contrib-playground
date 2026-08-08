@@ -1,0 +1,10 @@
+config:
+  azure-native:location: eastus
+  resourceGroupName: "<your-azure-resource-group>"
+  sqlAdminUser: "spinnakeradmin"
+# Secure values must be set with Pulumi secrets:
+# pulumi config set --secret sqlAdminPassword "<your-password>"
+# Optional Redis access settings:
+# pulumi config set redisSubnetId "/subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.Network/virtualNetworks/<vnet>/subnets/<subnet>"
+# pulumi config set redisFirewallStartIp "0.0.0.0"
+# pulumi config set redisFirewallEndIp "0.0.0.0"
