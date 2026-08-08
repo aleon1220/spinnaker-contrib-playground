@@ -20,7 +20,7 @@ catalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
 # https://plugins.gradle.org/plugin/com.diffplug.spotless
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-versionUpdate = { id = "com.github.ben-manes.versions", version.ref = "versionUpdate_version" }
+versionUpdate = { id = "io.github.ben-manes.versions", version.ref = "versionUpdate_version" }
 
 [libraries]
 # Source: https://mvnrepository.com/artifact/com.pulumi/aws
