@@ -1,9 +1,9 @@
 config:
   multicloud-compute:sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC4THm+31GVAU4m5UJLo8MWvDitmVH2JwUp7PbZ2a2jjQE28JrB2yLVV2J3sGy+cyH3XmDSOTtxY6kcqs4NMWzjY+s1hq8sWYx3EhROoNbC2anQwMUHipd66rL2vQO3kTamy8VIbIiy+Amk/PSZ/D6N2p5SqPdKmS8K39IkLxVSTJykY9ZlR6RJ35T7vl8hS4h/Aoj8ylkH2alH/aG/w77TgUO3pgINkElMCkkRRH8qlBacKSPls3aoqML2TOOuVmnWn61VXhgFAonubZ0sL0ZdOzCnhGNyAhUwKe3a/l6gqSNohH7hkZJH3nBwjSGvCnIWGm1lyZJXoq2g/StN9tpr aleon1220+engineer@outlook.co.nz
   multicloud-compute:targetCloud: gcp
-  multicloud-compute:projectName: playground-s-11-bd3d183f
+  multicloud-compute:projectName: playground-s-11-3a00c739
   multicloud-compute:environment: test
   multicloud-compute:location: us-west1
   gcp:region: us-west1
   gcp:zone: us-west1-a
-  gcp:project: playground-s-11-bd3d183f
+  gcp:project: playground-s-11-3a00c739

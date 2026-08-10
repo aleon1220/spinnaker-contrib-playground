@@ -59,15 +59,35 @@ Before running Pulumi, authenticate to all three cloud providers:
     gcloud auth activate-service-account --key-file="$HOME/workspace/gcp/sa-plural-sight.json"
     ```
 
+* Set it as application default credentials (what Pulumi uses)
+
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS="$HOME/workspace/gcp/sa-plural-sight.json"
+    ```
+
 * get GCP project from the service account `JSON` file
+
+    ```bash
+    YOUR_PROJECT_ID=$(jq --raw-output .project_id "$HOME/workspace/gcp/sa-plural-sight.json")
+    ```
 
 * set GCP project
 
     ```bash
-    YOUR_PROJECT_ID=$(jq --raw-output .project_id "$HOME/workspace/gcp/sa-plural-sight.json")
-
     gcloud config set project "$YOUR_PROJECT_ID"
     ```
+
+* get accounts and choose one
+
+```bash
+gcloud auth list
+```
+
+* set account
+
+```bash
+gcloud config set account $YOUR_ACCOUNT_EMAIL
+```
 
 ## Build
 
@@ -117,6 +137,18 @@ Since this is part of a larger Gradle workspace, you can
 
 * set the project ID
 
+```bash
+pulumi config set gcp:project $YOUR_PROJECT_ID --stack windows11-enterprise-wsl
+```
+
+* If you have a new lab session (new project ID), update the stack config to match the new project
+
+```bash
+pulumi config set multicloud-compute:projectName $YOUR_PROJECT_ID --stack windows11-enterprise-wsl
+```
+
+* command needs validation
+
     ```bash
     pulumi config set --path 'gcp:project' $YOUR_PROJECT_ID
     ```
@@ -152,6 +184,9 @@ This will preview the infrastructure changes and prompt for confirmation before 
 1. AWS
 2. Azure
 3. GCP instances.
+
+> if something fails run
+> `pulumi neo --debug-update`
 
 ## Migration Notes
 
