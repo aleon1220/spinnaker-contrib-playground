@@ -15,16 +15,27 @@ This project deploys a compute instance (Ubuntu 24.04 with Docker installed) acr
 Before running Pulumi, authenticate to all three cloud providers:
 
 ### AWS
-```bash
-aws configure
-# or export AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-```
+
+* access AWS programatically
+
+    ```bash
+    aws configure
+    ```
+
+* use env vars
+
+    ```bash
+    export $AWS_ACCESS_KEY_ID  $AWS_SECRET_ACCESS_KEY
+    ```
 
 ### Azure
-```bash
-az login
-az account set --subscription="<YOUR_SUBSCRIPTION_ID>"
-```
+
+* authentication 
+
+    ```bash
+    az login
+    az account set --subscription="<YOUR_SUBSCRIPTION_ID>"
+    ```
 
 ### GCP
 
