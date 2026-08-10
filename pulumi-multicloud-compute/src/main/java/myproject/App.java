@@ -14,7 +14,8 @@ public class App {
         var projectName = config.require("projectName");
         var environment = config.require("environment");
         var sshPublicKey = config.require("sshPublicKey");
-        
+        var location = config.get("location").orElse("us-east1");
+
         // Defaults to "all" clouds if not specified
         var targetCloud = config.get("targetCloud").orElse("all").toLowerCase();
 
@@ -29,7 +30,7 @@ public class App {
         }
 
         if (targetCloud.equals("all") || targetCloud.equals("gcp")) {
-            Output<String> gcpIp = GcpInfra.build(projectName, environment, sshPublicKey);
+            Output<String> gcpIp = GcpInfra.build(projectName, environment, sshPublicKey, location);
             ctx.export("GcpPublicIp", gcpIp);
         }
     }
