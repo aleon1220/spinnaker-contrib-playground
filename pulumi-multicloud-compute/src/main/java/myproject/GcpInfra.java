@@ -15,6 +15,9 @@ import com.pulumi.gcp.compute.inputs.InstanceNetworkInterfaceArgs;
 import com.pulumi.gcp.compute.inputs.InstanceNetworkInterfaceAccessConfigArgs;
 import com.pulumi.core.Output;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 public class GcpInfra {
@@ -57,8 +60,14 @@ public class GcpInfra {
                                 .build());
 
                 // Use user-data metadata to execute the cloud init script
-                var cloudInit = CloudInit.getCloudInitScript(projectName, "gcpvm");
-                var decodedCloudInit = new String(java.util.Base64.getDecoder().decode(cloudInit));
+                String cloudInit;
+                try {
+                        cloudInit = Files.readString(Paths.get("cloud-init.yaml"))
+                                        .replace("${HOSTNAME}", "gcpvm")
+                                        .replace("${PROJECT_NAME}", projectName);
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to read cloud-init.yaml", e);
+                }
 
                 var instance = new Instance("gcp-instance", InstanceArgs.builder()
                                 .name(projectName + "-vm")
