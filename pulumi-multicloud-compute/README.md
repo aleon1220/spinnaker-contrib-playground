@@ -79,9 +79,9 @@ Before running Pulumi, authenticate to all three cloud providers:
 
 * get accounts and choose one
 
-```bash
-gcloud auth list
-```
+    ```bash
+    gcloud auth list
+    ```
 
 * set account
 

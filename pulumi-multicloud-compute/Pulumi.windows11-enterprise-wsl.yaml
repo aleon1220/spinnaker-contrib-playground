@@ -4,6 +4,6 @@ config:
   multicloud-compute:projectName: playground-s-11-3a00c739
   multicloud-compute:environment: test
   multicloud-compute:location: us-west1
+  gcp:project: playground-s-11-3a00c739
   gcp:region: us-west1
   gcp:zone: us-west1-a
-  gcp:project: playground-s-11-3a00c739
