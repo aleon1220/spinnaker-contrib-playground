@@ -31,7 +31,8 @@ write_files:
       cp --verbose "$DOCKER_COMPOSE_INSTALL/docker-compose" /usr/bin/
     owner: root:root
     permissions: '0755'
-  - path: /root/install-k8s.sh
+  - path: /root/install-kubectl.sh
+  # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux
     content: |
       #!/bin/bash -eu
       
@@ -45,7 +46,8 @@ runcmd:
   - echo "VM setup via Pulumi for project ${PROJECT_NAME}"
   - echo 'export PATH=/home/ubuntu/bin:$PATH' >> /home/ubuntu/.bashrc
   - /root/install-docker.sh
-  - /root/install-k8s.sh
+  - /root/install-kubectl.sh
+  # https://kind.sigs.k8s.io/docs/user/using-wsl2/
 
 power_state:
   mode: reboot
