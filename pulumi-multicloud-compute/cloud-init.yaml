@@ -31,11 +31,21 @@ write_files:
       cp --verbose "$DOCKER_COMPOSE_INSTALL/docker-compose" /usr/bin/
     owner: root:root
     permissions: '0755'
+  - path: /root/install-k8s.sh
+    content: |
+      #!/bin/bash -eu
+      
+      curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      kubectl version --client
+    owner: root:root
+    permissions: '0755' 
 
 runcmd:
   - echo "VM setup via Pulumi for project ${PROJECT_NAME}"
   - echo 'export PATH=/home/ubuntu/bin:$PATH' >> /home/ubuntu/.bashrc
   - /root/install-docker.sh
+  - /root/install-k8s.sh
 
 power_state:
   mode: reboot
