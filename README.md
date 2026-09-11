@@ -73,6 +73,7 @@ Please open a **pull request** or start a **discussion** in the repo.
     * Application Client Secret: to be used with the `az` cli for authentication
 
 ### connect azure CLI to azure sandbox subscription Linux
+
 * pre-requisites : azure account and authentication <>
 * obtain the tenant ID: for PluralSight this is their official and they have the sandbox subscriptions
 

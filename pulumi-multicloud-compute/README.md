@@ -4,74 +4,197 @@ This project deploys a compute instance (Ubuntu 24.04 with Docker installed) acr
 
 ## Prerequisites
 
-- Java 21+
-- Pulumi CLI
-- AWS CLI
-- Azure CLI
-- Google Cloud SDK (gcloud)
+* Java 21+
+* Pulumi CLI
+
+### Cloud Provider access
+
+> the three of them or just access to one via Plural sight cloud sandboxes.
+
+* AWS Account
+  * AWS CLI
+* Azure Subscription
+  * Azure CLI
+* Google Cloud project
+  * Google Cloud SDK (gcloud)
 
 ## Authentication
 
 Before running Pulumi, authenticate to all three cloud providers:
 
 ### AWS
-```bash
-aws configure
-# or export AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-```
+
+* access AWS programatically
+
+    ```bash
+    aws configure
+    ```
+
+* use env vars
+
+    ```bash
+    export $AWS_ACCESS_KEY_ID  $AWS_SECRET_ACCESS_KEY
+    ```
 
 ### Azure
-```bash
-az login
-az account set --subscription="<YOUR_SUBSCRIPTION_ID>"
-```
+
+* authentication 
+
+    ```bash
+    az login
+    az account set --subscription="<YOUR_SUBSCRIPTION_ID>"
+    ```
 
 ### GCP
+
+* login authenticate to GCP
+
+    ```bash
+    gcloud auth application-default login
+    ```
+
+* Using Service Account. Get the `JSON` file
+
+    ```bash
+    gcloud auth activate-service-account --key-file="$HOME/workspace/gcp/sa-plural-sight.json"
+    ```
+
+* Set it as application default credentials (what Pulumi uses)
+
+    ```bash
+    export GOOGLE_APPLICATION_CREDENTIALS="$HOME/workspace/gcp/sa-plural-sight.json"
+    ```
+
+* get GCP project from the service account `JSON` file
+
+    ```bash
+    YOUR_PROJECT_ID=$(jq --raw-output .project_id "$HOME/workspace/gcp/sa-plural-sight.json")
+    ```
+
+* set GCP project
+
+    ```bash
+    gcloud config set project "$YOUR_PROJECT_ID"
+    ```
+
+* get accounts and choose one
+
+    ```bash
+    gcloud auth list
+    ```
+
+* set account
+
 ```bash
-gcloud auth application-default login
-gcloud config set project <YOUR_PROJECT_ID>
+gcloud config set account $YOUR_ACCOUNT_EMAIL
 ```
 
 ## Build
 
-Since this is part of a larger Gradle workspace, you can build the project from this directory:
+Since this is part of a larger Gradle workspace, you can 
+
+* build the project from this directory:
+
+    ```bash
+    ./gradlew build
+    ```
+
+* build from the parent directory:
+
+    ```bash
+    ./gradlew :pulumi-multicloud-compute:build
+    ```
+
+## Deploy the infra stack using pulumi orchestration
+
+1. go to the project
+
+    ```bash
+    pushd pulumi-multicloud-compute/
+    ```
+
+2. Initialize a new Pulumi stack (e.g., `dev`) or select it
+
+* new execution
+
+    ```bash
+    pulumi stack init dev
+    ```
+
+* choose stack
+
+    ```bash
+    pulumi stack select aleon1220/multicloud-compute/windows11-enterprise
+    ```
+
+1. Review the `Pulumi.$STACK_NAME.yaml` and set your configuration variables if needed. Note that a sample SSH key is provided but should be replaced with your own public key:
+
+* set the project name
+
+    ```bash
+    pulumi config set projectName $YOUR_PROJECT_ID
+    ```
+
+* set the project ID
+
 ```bash
-../gradlew build
-```
-Or from the parent directory:
-```bash
-./gradlew :pulumi-multicloud-compute:build
+pulumi config set gcp:project $YOUR_PROJECT_ID --stack windows11-enterprise-wsl
 ```
 
-## Deploy
+* If you have a new lab session (new project ID), update the stack config to match the new project
 
-1. Initialize a new Pulumi stack (e.g., `dev`):
 ```bash
-pulumi stack init dev
+pulumi config set multicloud-compute:projectName $YOUR_PROJECT_ID --stack windows11-enterprise-wsl
 ```
 
-2. Review the `Pulumi.dev.yaml` and set your configuration variables if needed. Note that a sample SSH key is provided but should be replaced with your own public key:
-```bash
-pulumi config set --path 'gcp:project' your-gcp-project-id
-pulumi config set sshPublicKey "ssh-rsa YOUR_PUBLIC_KEY..."
-```
+* command needs validation
 
-By default, the project will deploy instances to all three clouds. You can restrict the deployment to a single cloud by setting the `targetCloud` configuration variable:
-```bash
-# Options: all (default), aws, azure, gcp
-pulumi config set targetCloud aws
-```
+    ```bash
+    pulumi config set --path 'gcp:project' $YOUR_PROJECT_ID
+    ```
 
-3. Run the deployment:
-```bash
-pulumi up
-```
-This will preview the infrastructure changes and prompt for confirmation before provisioning the resources. The outputs will display the public IP addresses for the AWS, Azure, and GCP instances.
+* get the public SSH key from the default location
+
+    ```bash
+    cat ~/.ssh/id_rsa.pub | xclip
+    ```
+
+* set the public SSH key
+
+    ```bash
+    pulumi config set sshPublicKey "ssh-rsa SSH_PUBLIC_KEY..."
+    ```
+
+By default, the project will deploy instances to all three clouds. You can restrict the deployment to a single cloud by setting the `targetCloud` configuration variable for the target **pulumi stack**
+
+* set one of the Options: all (default), aws, azure, gcp
+
+    ```bash
+    pulumi config set targetCloud azure
+    ```
+
+1. Run the infra deployment
+
+    ```bash
+    pulumi up
+    ```
+
+This will preview the infrastructure changes and prompt for confirmation before provisioning the resources. The outputs will display the public IP addresses for the VM in either
+
+1. AWS
+2. Azure
+3. GCP instances.
+
+> if something fails run
+> `pulumi neo --debug-update`
 
 ## Migration Notes
 
 This project replaces the older Terraform setup:
-- **AWS**: The older Terraform code (`t3.medium`, `Ubuntu 22.04`, `50GB gp3`) is now migrated to Pulumi `aws:ec2:Instance`. The AMI filter targets Ubuntu 24.04 (`ubuntu-noble-24.04-amd64-server-*`).
-- **Azure**: The older AzureRM configuration is now using the `azure-native` Pulumi provider. The `custom_data` block (which was commented out in TF) is now populated with a Cloud-Init script to align Docker setup with AWS. It provisions `Ubuntu 24.04` on a `Standard_DS1_v2` instance.
-- **GCP**: The Terraform `gcp/` folder was previously empty of compute resources. It now provisions an `e2-medium` instance running `Ubuntu 24.04` and dynamically injects the startup script via the `user-data` metadata field, ensuring Docker is provisioned consistently across all three clouds.
-- **Docker Installation**: The original startup script used short flags (`-y`, etc.). The new setup uses strict long-format flags (`--yes`, `--quiet`, `--parents`, `--verbose`) for all commands as requested.
+* **AWS**: The older Terraform code (`t3.medium`, `Ubuntu 22.04`, `50GB gp3`) is now migrated to Pulumi `aws:ec2:Instance`. The AMI filter targets Ubuntu 24.04 (`ubuntu-noble-24.04-amd64-server-*`).
+
+* **Azure**: The older AzureRM configuration is now using the `azure-native` Pulumi provider. The `custom_data` block (which was commented out in TF) is now populated with a Cloud-Init script to align Docker setup with AWS. It provisions `Ubuntu 24.04` on a `Standard_DS1_v2` instance.
+
+* **GCP**: The Terraform `gcp/` folder was previously empty of compute resources. It now provisions an `e2-medium` instance running `Ubuntu 24.04` and dynamically injects the startup script via the `user-data` metadata field, ensuring Docker is provisioned consistently across all three clouds.
+
+* **Docker Installation**: The original startup script used short flags (`-y`, etc.). The new setup uses strict long-format flags (`--yes`, `--quiet`, `--parents`, `--verbose`) for all commands as requested.
